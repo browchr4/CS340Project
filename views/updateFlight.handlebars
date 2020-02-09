@@ -1,0 +1,54 @@
+<head>
+    <meta charset="utf-8" />
+    <title>OA DB Backend</title>
+	<h1 align="center">OREGONE AIRLINES DB ADMIN PAGE</h1>
+<body>
+	<table id="linkMenu">
+		<tr>
+			<th><a class="linkRef" href="./" id="homeLink">Home</a></th>
+			<th><a class="linkRef" href="./addFlight" id="addLink">Add Flight</a></th>
+			<th><a class="linkRef" href="./getFlightInfo" id="searchLink">Search Flights</a></th>
+			<th><a class="linkRef" href="./addTraveler" id="travelLink">Book Traveler</a></th>
+			<th><a class="linkRef" href="./removeTraveler" id="travelLink">Cancel Traveler</a></th>
+			<th><a class="linkRef" href="./updateFlight" id="updateLink">Update Flight</a></th>
+		</tr>
+	</table>
+	</div>
+	<h3 align="center">Update Flight</h3>
+	<div>
+	<form id="updateFlight" action="http://flip1.engr.oregonstate.edu:44213/updateFlight", method="post">
+		<div>
+			<strong>Flight ID</strong>
+            <input type="text" value="1" id="flightId"/>
+        </div>
+		<br>
+		<div>
+			<strong>Plane</strong>
+            <input type="text" id="planeId"/>
+        </div>
+		<br>
+		<div>
+			<strong>Depart Date</strong>
+            <input type="datetime-local"id="departDate"/>
+        </div>
+		<br>
+		<div>
+			<strong>Arrival Date</strong>
+            <input type="datetime-local" id="arrivalDate"/>
+        </div>
+		<br>
+				<div>
+			<strong>Captain</strong>
+            <input type="text" id="crewIdOne"/>
+        </div>
+		<div>
+			<strong>CoPilot</strong>
+            <input type="text" id="crewIdTwo"/>
+        </div>
+		<div>
+			<strong>Steward</strong>
+            <input type="text" id="crewIdThree"/>
+        </div>
+	</form>
+	</div>
+</body>

@@ -1,0 +1,66 @@
+<head>
+    <meta charset="utf-8" />
+    <title>OA DB Backend</title>
+	<h1 align="center">OREGONE AIRLINES DB ADMIN PAGE</h1>
+<body>
+	<table id="linkMenu">
+		<tr>
+			<th><a class="linkRef" href="./" id="homeLink">Home</a></th>
+			<th><a class="linkRef" href="./addFlight" id="addLink">Add Flight</a></th>
+			<th><a class="linkRef" href="./getFlightInfo" id="searchLink">Search Flights</a></th>
+			<th><a class="linkRef" href="./addTraveler" id="travelLink">Book Traveler</a></th>
+			<th><a class="linkRef" href="./removeTraveler" id="travelLink">Cancel Traveler</a></th>
+			<th><a class="linkRef" href="./updateFlight" id="updateLink">Update Flight</a></th>
+		</tr>
+	</table>
+	</div>
+	<h3 align="center">Search Flights</h3>
+	<div>
+	<form id="searchFlight" action="http://flip1.engr.oregonstate.edu:44213/searchFlight", method="post">
+		<p><strong>Show</strong></p>
+		<div>
+            <input type="checkbox" id="showFlightId" name="showFlightId" checked/>
+			<label for="showFlightId">Flight ID</label>
+        </div>
+		<div>
+            <input type="checkbox" id="showPlaneId" name="showPlaneId" checked/>
+			<label for="showPlaneId">Plane ID</label>
+        </div>
+		<div>
+            <input type="checkbox" id="showDepartTimes" name="showDepartTimes" checked/>
+			<label for="showDepartTimes">Proj/Actual Departure Time</label>
+        </div>
+		<div>
+            <input type="checkbox" id="showArrivalTimes" name="showArrivalTimes" checked/>
+			<label for="showArrivalTimes">Proj/Actual Arrival Time</label>
+        </div>
+		<div>
+            <input type="checkbox" id="showRouteId" name="showRouteId" checked/>
+			<label for="showRouteId">Route ID</label>
+        </div>
+		<br>
+		<p><strong>Filter</strong></p>
+		<div id="filterTraveler">
+			<strong>Traveler</strong>
+			<input type="text" id="travelerName"/>
+			<div>
+				<input type="checkbox" id="firstClass" name="firstClass" checked/>
+				<label for="firstClass">First Class</label>
+			</div>
+			<div>
+				<input type="checkbox" id="secondClass" name="secondClass" checked/>
+				<label for="secondClass">Second Class</label>
+			</div>
+			<div>
+				<input type="checkbox" id="thirdClass" name="thirdClass" checked/>
+				<label for="thirdClass">Third Class</label>
+			</div>
+        </div>
+		<br>
+		<div>
+			<strong>Route ID</strong>
+            <input type="text" value="1" id="routeId"/>
+        </div>
+	</form>
+	</div>
+</body>

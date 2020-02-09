@@ -1,0 +1,34 @@
+<head>
+    <meta charset="utf-8" />
+    <title>OA DB Backend</title>
+	<h1 align="center">OREGONE AIRLINES DB ADMIN PAGE</h1>
+<body>
+	<table id="linkMenu">
+		<tr>
+			<th><a class="linkRef" href="./" id="homeLink">Home</a></th>
+			<th><a class="linkRef" href="./addFlight" id="addLink">Add Flight</a></th>
+			<th><a class="linkRef" href="./getFlightInfo" id="searchLink">Search Flights</a></th>
+			<th><a class="linkRef" href="./addTraveler" id="travelLink">Book Traveler</a></th>
+			<th><a class="linkRef" href="./removeTraveler" id="travelLink">Cancel Traveler</a></th>
+			<th><a class="linkRef" href="./updateFlight" id="updateLink">Update Flight</a></th>
+		</tr>
+	</table>
+	</div>
+	<h3 align="center">Remove Traveler From Flight</h3>
+	<div>
+	<h4>Traveler</h4>
+	<form id="removeTraveler" action="http://flip1.engr.oregonstate.edu:44213/removeTraveler", method="post">
+		<div id="travelerName">
+			<strong>First </strong>
+			<input type="text" id="firstName"/>
+			<strong>Last </strong>
+			<input type="text" id="lastName"/>
+        </div>
+		<br>
+		<div>
+			<strong>Flight ID </strong>
+            <input type="text" value="1" id="flightId"/>
+        </div>
+	</form>
+	</div>
+</body>

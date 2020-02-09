@@ -1,0 +1,63 @@
+.slideshow { 
+   margin: auto;
+   width: 40%;
+   padding: 15px;
+}
+
+#linkMenu {
+	width: 100%;
+	padding: 10px;
+	text-align: center;
+	align-content: center;
+}
+#linkMenu th {
+	width:20%;
+}
+
+#pickupReservation {
+	align-content: center;
+	text-align: center;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#head {
+	text-align: center;
+	align-content: center;
+}
+
+#h1 {
+	font-size: 175%
+}
+
+#h3 {
+	text-align: center;
+	align-content: center;
+	font-size: 150%
+}
+
+#intro {
+	text-align:center;
+	font-size: 140%;
+}
+
+#aboutScroll{
+	height: 200px;
+	border: 1px solid black;
+	margin-top: 20px;
+	margin-left: auto;
+	margin-right: auto;
+	width: 60%;
+	overflow: scroll;
+	align-content: center;
+}
+
+#info{
+	text-align: center;
+	position: relative;
+	margin-top: 20px;
+	margin-left: auto;
+	margin-right: auto;
+	width: 60%;
+	align-content: center;
+}
