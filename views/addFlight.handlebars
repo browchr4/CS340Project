@@ -1,59 +1,55 @@
 <head>
-    <meta charset="utf-8" />
-    <title>OA DB Backend</title>
-	<h1 align="center">OREGONE AIRLINES DB ADMIN PAGE</h1>
+  <meta charset="utf-8" />
+  <title>OA DB Backend</title>
+  <h1 align="center">OREGONE AIRLINES DB ADMIN PAGE</h1>
+
 <body>
-	<table id="linkMenu">
-		<tr>
-			<th><a class="linkRef" href="./" id="homeLink">Home</a></th>
-			<th><a class="linkRef" href="./addFlight" id="addLink">Add Flight</a></th>
-			<th><a class="linkRef" href="./getFlightInfo" id="searchLink">Search Flights</a></th>
-			<th><a class="linkRef" href="./addTraveler" id="travelLink">Book Traveler</a></th>
-			<th><a class="linkRef" href="./removeTraveler" id="travelLink">Cancel Traveler</a></th>
-			<th><a class="linkRef" href="./updateFlight" id="updateLink">Update Flight</a></th>
-		</tr>
-	</table>
-	</div>
-	<h3 align="center">Create New Flight</h3>
-	<div>
-	<form id="newFlight" action="http://flip1.engr.oregonstate.edu:44213/addFlight", method="post">
-		<div>
-			<strong>Plane</strong>
-            <input type="text" id="planeId"/>
-        </div>
-		<br>
-		<div>
-			<strong>Depart Date</strong>
-            <input type="datetime-local" value="2025-01-01T09:30" id="departDate"/>
-        </div>
-		<br>
-		<div>
-			<strong>Arrival Date</strong>
-            <input type="datetime-local" value="2025-01-01T12:30" id="arrivalDate"/>
-        </div>
-		<br>
-		<div>
-			<strong>Departing Airport</strong>
-            <input type="text" value="PDX" id="departLocation"/>
-        </div>
-		<div>
-			<strong>Arrival Airport</strong>
-            <input type="text" value="LAX" id="arrivalLocation"/>
-        </div>
-		<div>
-			<strong>Captain</strong>
-            <input type="text" id="crewIdOne"/>
-        </div>
-		<div>
-			<strong>CoPilot</strong>
-            <input type="text" id="crewIdTwo"/>
-        </div>
-		<div>
-			<strong>Steward</strong>
-            <input type="text" id="crewIdThree"/>
-        </div>
-		<br>
-		<br>
-	</form>
-	</div>
+  <table id="linkMenu">
+    <tr>
+      <th><a class="linkRef" href="/" id="homeLink">Home</a></th>
+      <th><a class="linkRef" href="/addFlight" id="addLink">Add Flight</a></th>
+      <th><a class="linkRef" href="/getFlightInfo" id="searchLink">Search Flights</a></th>
+      <th><a class="linkRef" href="/addTraveler" id="travelLink">Book Traveler</a></th>
+      <th><a class="linkRef" href="/removeTraveler" id="travelLink">Cancel Traveler</a></th>
+      <th><a class="linkRef" href="/updateFlight" id="updateLink">Update Flight</a></th>
+    </tr>
+  </table>
+  </div>
+  <h3 align="center">Create New Flight</h3>
+  <div>
+    <form id="newFlight" action="/addFlight" , method="post">
+      <table>
+        <tr>
+          <td><strong>Depart Date</strong>
+          <td><input type="datetime-local" value="2025-01-01T09:30" id="departDate" />
+        <tr>
+          <td><strong>Arrival Date</strong>
+          <td><input type="datetime-local" value="2025-01-01T12:30" id="arrivalDate" />
+        <tr>
+          <td><strong>Departing Airport</strong>
+          <td><input type="text" value="PDX" id="departLocation" />
+        <tr>
+          <td><strong>Arrival Airport</strong>
+          <td><input type="text" value="LAX" id="arrivalLocation" />
+        <tr>
+          <td><strong>Captain</strong>
+          <td><input type="text" id="crewIdOne" />
+        <tr>
+          <td><strong>CoPilot</strong>
+          <td><input type="text" id="crewIdTwo" />
+        <tr>
+          <td><strong>Steward</strong>
+          <td><input type="text" id="crewIdThree" />
+        <tr>
+          <td><strong>Plane</strong>
+          <td><input type="text" id="planeId" />
+        <tr>
+          <td>
+          <td><input type="submit"></input>
+      </table>
+    </form>
+  </div>
+  <br>
+  <br>
+  </div>
 </body>

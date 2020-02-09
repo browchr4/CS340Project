@@ -1,4 +1,5 @@
 ﻿var express = require('express');
+var os = require('os');
 
 var app = express();
 var handlebars = require('express-handlebars').create({ defaultLayout: 'main' });
@@ -19,11 +20,12 @@ app.get('/', function (req, res) {
 });
 
 
+
+// GET Functions
 //Creates new row in Flight, CrewList, TravelerList tables
 app.get('/addFlight', function (req, res) {
     res.render('addFlight')
 });
-
 
 //Read data from Flight table with user-submitted parameters
 app.get('/getFlightInfo', function (req, res) {
@@ -45,6 +47,33 @@ app.get('/removeTraveler', function (req, res) {
     res.render('removeTraveler');
 });
 
+
+
+
+// POST functions
+app.post('/addFlight', function (req, res) {
+    // SQL QUERY VALIDITY CHECK, SANITIZATION, AND SUBMISSION GOES HERE
+    res.render('addFlight')
+});
+app.post('/getFlightInfo', function (req, res) {
+    // SQL QUERY VALIDITY CHECK, SANITIZATION, AND SUBMISSION GOES HERE
+    res.render('getFlightInfo')
+});
+app.post('/addTraveler', function (req, res) {
+    // SQL QUERY VALIDITY CHECK, SANITIZATION, AND SUBMISSION GOES HERE
+    res.render('addTraveler')
+});
+app.post('/updateFlight', function (req, res) {
+    // SQL QUERY VALIDITY CHECK, SANITIZATION, AND SUBMISSION GOES HERE
+    res.render('updateFlight')
+});
+app.post('/removeTraveler', function (req, res) {
+    // SQL QUERY VALIDITY CHECK, SANITIZATION, AND SUBMISSION GOES HERE
+    res.render('removeTraveler')
+});
+
+
+
 //404 page
 app.use(function (req, res) {
     res.status(404);
@@ -59,6 +88,8 @@ app.use(function (err, req, res, next) {
     res.render('500');
 });
 
+
+
 app.listen(app.get('port'), function () {
-    console.log('Express started on http://flip1.engr.oregonstate.edu:' + app.get('port') + '; press Ctrl-C to terminate.');
+    console.log('Express started on http://' + os.hostname() + ':' + app.get('port') + '; press Ctrl-C to terminate.');
 });
