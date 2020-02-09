@@ -5,44 +5,47 @@
 <body>
 	<table id="linkMenu">
 		<tr>
-			<th><a class="linkRef" href="./" id="homeLink">Home</a></th>
-			<th><a class="linkRef" href="./addFlight" id="addLink">Add Flight</a></th>
-			<th><a class="linkRef" href="./getFlightInfo" id="searchLink">Search Flights</a></th>
-			<th><a class="linkRef" href="./addTraveler" id="travelLink">Book Traveler</a></th>
-			<th><a class="linkRef" href="./removeTraveler" id="travelLink">Cancel Traveler</a></th>
-			<th><a class="linkRef" href="./updateFlight" id="updateLink">Update Flight</a></th>
+			<th><a class="linkRef" href="/" id="homeLink">Home</a></th>
+			<th><a class="linkRef" href="/addFlight" id="addLink">Add Flight</a></th>
+			<th><a class="linkRef" href="/getFlightInfo" id="searchLink">Search Flights</a></th>
+			<th><a class="linkRef" href="/addTraveler" id="travelLink">Book Traveler</a></th>
+			<th><a class="linkRef" href="/removeTraveler" id="travelLink">Cancel Traveler</a></th>
+			<th><a class="linkRef" href="/updateFlight" id="updateLink">Update Flight</a></th>
 		</tr>
 	</table>
 	</div>
 	<h3 align="center">Add Traveler To Flight</h3>
 	<div>
 	<h4>Traveler</h4>
-	<form id="addTraveler" action="http://flip1.engr.oregonstate.edu:44213/addTraveler", method="post">
-		<div id="travelerName">
-			<strong>First </strong>
-			<input type= "text" id="firstName"/>
-			<strong>Last</strong>
-			<input type="text" id="lastName"/>
-        </div>
-		<div id="classTicket">
-			<div>
-				<input type="checkbox" id="firstClass" name="firstClass"/>
-				<label for="firstClass">First Class </label>
-			</div>
-			<div>
-				<input type="checkbox" id="secondClass" name="secondClass"/>
-				<label for="secondClass"> Second Class </label>
-			</div>
-			<div>
-				<input type="checkbox" id="thirdClass" name="thirdClass"/>
-				<label for="thirdClass"> Third Class </label>
-			</div>
-		</div>
-		<br>
-		<div>
-			<strong>Flight ID</strong>
-            <input type="text" value="1" id="flightId"/>
-        </div>
+	<form id="addTraveler" action="/addTraveler", method="post">
+    <table>
+      <tr>
+        <td>First
+        <td><input type= "text" id="firstName"/>
+      <tr>
+        <td>Last
+        <td><input type="text" id="lastName"/>
+      <tr>
+        <td><input type="radio" id="firstClass" name="class"/>
+        <td><label for="firstClass">First Class </label>
+      <tr>
+        <td><input type="radio" id="secondClass" name="class"/>
+        <td><label for="secondClass"> Second Class </label>
+      <tr>
+        <td><input type="radio" id="thirdClass" name="class"/>
+        <td><label for="thirdClass"> Third Class </label>
+      <tr>
+        <td>Flight ID
+        <td><input type="text" value="1" id="flightId"/>
+      <tr>
+        <td>
+        <td><input type="submit"/>
+    </table>
 	</form>
 	</div>
+
+
+  <table id="results"> 
+  </table>
+
 </body>

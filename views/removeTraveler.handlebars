@@ -5,30 +5,38 @@
 <body>
 	<table id="linkMenu">
 		<tr>
-			<th><a class="linkRef" href="./" id="homeLink">Home</a></th>
-			<th><a class="linkRef" href="./addFlight" id="addLink">Add Flight</a></th>
-			<th><a class="linkRef" href="./getFlightInfo" id="searchLink">Search Flights</a></th>
-			<th><a class="linkRef" href="./addTraveler" id="travelLink">Book Traveler</a></th>
-			<th><a class="linkRef" href="./removeTraveler" id="travelLink">Cancel Traveler</a></th>
-			<th><a class="linkRef" href="./updateFlight" id="updateLink">Update Flight</a></th>
+			<th><a class="linkRef" href="/" id="homeLink">Home</a></th>
+			<th><a class="linkRef" href="/addFlight" id="addLink">Add Flight</a></th>
+			<th><a class="linkRef" href="/getFlightInfo" id="searchLink">Search Flights</a></th>
+			<th><a class="linkRef" href="/addTraveler" id="travelLink">Book Traveler</a></th>
+			<th><a class="linkRef" href="/removeTraveler" id="travelLink">Cancel Traveler</a></th>
+			<th><a class="linkRef" href="/updateFlight" id="updateLink">Update Flight</a></th>
 		</tr>
 	</table>
 	</div>
 	<h3 align="center">Remove Traveler From Flight</h3>
 	<div>
 	<h4>Traveler</h4>
-	<form id="removeTraveler" action="http://flip1.engr.oregonstate.edu:44213/removeTraveler", method="post">
-		<div id="travelerName">
-			<strong>First </strong>
-			<input type="text" id="firstName"/>
-			<strong>Last </strong>
-			<input type="text" id="lastName"/>
-        </div>
-		<br>
-		<div>
-			<strong>Flight ID </strong>
-            <input type="text" value="1" id="flightId"/>
-        </div>
+	<form id="removeTraveler" action="/removeTraveler", method="post">
+    <table>
+      <tr>
+        <td>First
+        <td><input type="text" id="firstName"/>
+      <tr>
+        <td>Last
+        <td><input type="text" id="lastName"/>
+      <tr>
+        <td>Flight ID
+        <td><input type="text" value="1" id="flightId"/>
+      <tr>
+        <td>
+        <td><input type="submit"/>
+    </table>
 	</form>
 	</div>
+
+
+  <table id="results"> 
+  </table>
+  
 </body>

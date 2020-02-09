@@ -2,65 +2,115 @@
     <meta charset="utf-8" />
     <title>OA DB Backend</title>
 	<h1 align="center">OREGONE AIRLINES DB ADMIN PAGE</h1>
+  <script>
+
+  function hide(elements) {
+    for (let i = 0; i < elements.length; i++) {
+      elements[i].style.display = 'none';
+    }
+  }
+
+  function show(elements) {
+    for (let i = 0; i < elements.length; i++) {
+      elements[i].style.display = '';
+    }
+  }
+
+  function toggle_class(checkbox_id, class_name) {
+    var check = document.getElementById(checkbox_id);
+    var cols = document.getElementsByClassName(class_name);
+    if (check.checked) {
+      show(cols);
+    } else {
+      hide(cols);
+    }
+  }
+
+  </script>
 <body>
 	<table id="linkMenu">
 		<tr>
-			<th><a class="linkRef" href="./" id="homeLink">Home</a></th>
-			<th><a class="linkRef" href="./addFlight" id="addLink">Add Flight</a></th>
-			<th><a class="linkRef" href="./getFlightInfo" id="searchLink">Search Flights</a></th>
-			<th><a class="linkRef" href="./addTraveler" id="travelLink">Book Traveler</a></th>
-			<th><a class="linkRef" href="./removeTraveler" id="travelLink">Cancel Traveler</a></th>
-			<th><a class="linkRef" href="./updateFlight" id="updateLink">Update Flight</a></th>
+			<th><a class="linkRef" href="/" id="homeLink">Home</a></th>
+			<th><a class="linkRef" href="/addFlight" id="addLink">Add Flight</a></th>
+			<th><a class="linkRef" href="/getFlightInfo" id="searchLink">Search Flights</a></th>
+			<th><a class="linkRef" href="/addTraveler" id="travelLink">Book Traveler</a></th>
+			<th><a class="linkRef" href="/removeTraveler" id="travelLink">Cancel Traveler</a></th>
+			<th><a class="linkRef" href="/updateFlight" id="updateLink">Update Flight</a></th>
 		</tr>
 	</table>
 	</div>
 	<h3 align="center">Search Flights</h3>
+
+
 	<div>
-	<form id="searchFlight" action="http://flip1.engr.oregonstate.edu:44213/searchFlight", method="post">
-		<p><strong>Show</strong></p>
-		<div>
-            <input type="checkbox" id="showFlightId" name="showFlightId" checked/>
-			<label for="showFlightId">Flight ID</label>
-        </div>
-		<div>
-            <input type="checkbox" id="showPlaneId" name="showPlaneId" checked/>
-			<label for="showPlaneId">Plane ID</label>
-        </div>
-		<div>
-            <input type="checkbox" id="showDepartTimes" name="showDepartTimes" checked/>
-			<label for="showDepartTimes">Proj/Actual Departure Time</label>
-        </div>
-		<div>
-            <input type="checkbox" id="showArrivalTimes" name="showArrivalTimes" checked/>
-			<label for="showArrivalTimes">Proj/Actual Arrival Time</label>
-        </div>
-		<div>
-            <input type="checkbox" id="showRouteId" name="showRouteId" checked/>
-			<label for="showRouteId">Route ID</label>
-        </div>
-		<br>
-		<p><strong>Filter</strong></p>
-		<div id="filterTraveler">
-			<strong>Traveler</strong>
-			<input type="text" id="travelerName"/>
-			<div>
-				<input type="checkbox" id="firstClass" name="firstClass" checked/>
-				<label for="firstClass">First Class</label>
-			</div>
-			<div>
-				<input type="checkbox" id="secondClass" name="secondClass" checked/>
-				<label for="secondClass">Second Class</label>
-			</div>
-			<div>
-				<input type="checkbox" id="thirdClass" name="thirdClass" checked/>
-				<label for="thirdClass">Third Class</label>
-			</div>
-        </div>
-		<br>
-		<div>
-			<strong>Route ID</strong>
-            <input type="text" value="1" id="routeId"/>
-        </div>
+	<form id="searchFlight" action="/getFlightInfo", method="post">
+    <table>
+      <tr>
+        <td colspan="2"><center><strong>Show</strong></center>
+      <tr>
+        <td><input type="checkbox" id="showFlightId" name="showFlightId" onchange="toggle_class('showFlightId','resultsFlightId')" checked/>
+        <td><label for="showFlightId">Flight ID</label>
+      <tr>
+        <td><input type="checkbox" id="showPlaneId" name="showPlaneId" onchange="toggle_class('showPlaneId','resultsPlaneId')" checked/>
+        <td><label for="showPlaneId">Plane ID</label>
+      <tr>
+        <td><input type="checkbox" id="showDepartTimes" name="showDepartTimes" onchange="toggle_class('showDepartTimes','resultsDepartureTime')" checked/>
+        <td><label for="showDepartTimes">Proj/Actual Departure Time</label>
+      <tr>
+        <td><input type="checkbox" id="showArrivalTimes" name="showArrivalTimes" onchange="toggle_class('showArrivalTimes','resultsArrivialTime')" checked/>
+        <td><label for="showArrivalTimes">Proj/Actual Arrival Time</label>
+      <tr>
+        <td><input type="checkbox" id="showRouteId" name="showRouteId" onchange="toggle_class('showRouteId','resultsRouteId')" checked/>
+        <td><label for="showRouteId">Route ID</label>
+      <tr>
+        <td colspan="2"><center><strong>Filter</strong></center>
+      <tr>
+        <td>Traveler
+        <td><input type="text" id="travelerName"/>
+      <tr>
+        <td><input type="checkbox" id="firstClass" name="firstClass" checked/>
+        <td><label for="firstClass">First Class</label>
+      <tr>
+        <td><input type="checkbox" id="secondClass" name="secondClass" checked/>
+        <td><label for="secondClass">Second Class</label>
+      <tr>
+        <td><input type="checkbox" id="thirdClass" name="thirdClass" checked/>
+        <td><label for="thirdClass">Third Class</label>
+      <tr>
+        <td>Route ID
+        <td><input type="text" value="1" id="routeId"/>
+      <tr>
+        <td>
+        <td><input type="submit"/>
+    </table>
 	</form>
+
+  <table id="results"> 
+    <tr>
+      <td class="resultsFlightId">FlightID
+      <td class="resultsPlaneId">PlaneID
+      <td class="resultsDepartureTime">DepartureTime
+      <td class="resultsArrivialTime">ArrivialTime
+      <td class="resultsRouteId">RouteID
+      <td class="resultsTravelerId">TravelerID
+      <td class="resultsSeatClass">SeatClass
+    <tr>
+      <td class="resultsFlightId">EXAMPLE
+      <td class="resultsPlaneId">EXAMPLE
+      <td class="resultsDepartureTime">EXAMPLE
+      <td class="resultsArrivialTime">EXAMPLE
+      <td class="resultsRouteId">EXAMPLE
+      <td class="resultsTravelerId">EXAMPLE
+      <td class="resultsSeatClass">EXAMPLE
+  </table>
+
 	</div>
+
+  <script>
+    toggle_class('showFlightId','resultsFlightId');
+    toggle_class('showPlaneId','resultsPlaneId');
+    toggle_class('showDepartTimes','resultsDepartureTime');
+    toggle_class('showArrivalTimes','resultsArrivialTime');
+    toggle_class('showRouteId','resultsRouteId');
+  </script>
 </body>
