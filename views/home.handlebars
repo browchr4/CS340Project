@@ -2,6 +2,7 @@
     <meta charset="utf-8" />
     <title>OA DB Backend</title>
 	<h1 align="center">OREGONE AIRLINES DB ADMIN PAGE</h1>
+	<link rel="stylesheet" href="style.css" type="text/css">
 <body>
 	<table id="linkMenu">
 		<tr>
@@ -18,6 +19,18 @@
 	<h3 align="center">Airline DB landing page</h3>
 	<div id="info">
 		Welcome to the Oregone Airlines backend administration page.
-		Please select a link from above to affect the database.
+		The purpose of this site is to give act as a GUI allowing airline employees
+		to perform restricted CRUD activities to the airline's flight scheduling
+		database. Use a link above to perform one the following business tasks:
+		<ul>
+			<li>Add Flight - Schedule a new flight with an assigned route. This adds a flight
+			to the database with an assigned route, plane and crew.</li>
+			<li>Search Flights - Allows a query of multiple tables in the database, with user
+			supplied constraints and view filters.</li>
+			<li>Book Traveler - Adds a Traveler to the TravelerList for an upcoming flight</li>
+			<li>Cancel Traveler - Allows a Traveler to remove themselves from an upcoming flight.
+			<li>Update Flight - Allows a scheduler to change the plane, crew, or departure time of
+			an already existing flight.</li>
+		</ul>
 	</div>
 </body>

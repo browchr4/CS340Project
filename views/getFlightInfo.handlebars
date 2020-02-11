@@ -2,6 +2,7 @@
     <meta charset="utf-8" />
     <title>OA DB Backend</title>
 	<h1 align="center">OREGONE AIRLINES DB ADMIN PAGE</h1>
+	<link rel="stylesheet" href="style.css" type="text/css">
   <script>
 
   function hide(elements) {
@@ -62,6 +63,12 @@
       <tr>
         <td><input type="checkbox" id="showRouteId" name="showRouteId" onchange="toggle_class('showRouteId','resultsRouteId')" checked/>
         <td><label for="showRouteId">Route ID</label>
+	  <tr>
+        <td><input type="checkbox" id="showDepartLoc" name="showDepartLoc" onchange="toggle_class('showDepartLoc','resultsDepartLoc')" checked/>
+        <td><label for="showDepartLoc">Departing Airport</label>
+	  <tr>
+        <td><input type="checkbox" id="showDestLoc" name="showDestLoc" onchange="toggle_class('showDestLoc','resultsDestLoc')" checked/>
+        <td><label for="showDestLoc">Destination Airport</label>
       <tr>
         <td colspan="2"><center><strong>Filter</strong></center>
       <tr>
@@ -92,6 +99,8 @@
       <td class="resultsDepartureTime">DepartureTime
       <td class="resultsArrivialTime">ArrivialTime
       <td class="resultsRouteId">RouteID
+	  <td class="resultsDepartLoc">DepartingAirport
+	  <td class="resultsDestLoc">DestinationAirport
       <td class="resultsTravelerId">TravelerID
       <td class="resultsSeatClass">SeatClass
     <tr>
@@ -100,6 +109,8 @@
       <td class="resultsDepartureTime">EXAMPLE
       <td class="resultsArrivialTime">EXAMPLE
       <td class="resultsRouteId">EXAMPLE
+	  <td class="resultsDepartLoc">EXAMPLE
+	  <td class="resultsDestLoc">EXAMPLE
       <td class="resultsTravelerId">EXAMPLE
       <td class="resultsSeatClass">EXAMPLE
   </table>
