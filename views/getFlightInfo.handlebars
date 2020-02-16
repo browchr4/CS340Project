@@ -29,16 +29,7 @@
 
   </script>
 <body>
-	<table id="linkMenu">
-		<tr>
-			<th><a class="linkRef" href="/" id="homeLink">Home</a></th>
-			<th><a class="linkRef" href="/addFlight" id="addLink">Add Flight</a></th>
-			<th><a class="linkRef" href="/getFlightInfo" id="searchLink">Search Flights</a></th>
-			<th><a class="linkRef" href="/addTraveler" id="travelLink">Book Traveler</a></th>
-			<th><a class="linkRef" href="/removeTraveler" id="travelLink">Cancel Traveler</a></th>
-			<th><a class="linkRef" href="/updateFlight" id="updateLink">Update Flight</a></th>
-		</tr>
-	</table>
+  	{{{ links_table }}}
 	</div>
 	<h3 align="center">Search Flights</h3>
 
@@ -75,17 +66,19 @@
         <td>Traveler
         <td><input type="text" id="travelerName"/>
       <tr>
-        <td><input type="checkbox" id="firstClass" name="firstClass" checked/>
+        <td><input type="checkbox" id="firstClass" name="showFirstClass" checked/>
         <td><label for="firstClass">First Class</label>
       <tr>
-        <td><input type="checkbox" id="secondClass" name="secondClass" checked/>
+        <td><input type="checkbox" id="secondClass" name="showSecondClass" checked/>
         <td><label for="secondClass">Second Class</label>
       <tr>
-        <td><input type="checkbox" id="thirdClass" name="thirdClass" checked/>
+        <td><input type="checkbox" id="thirdClass" name="showThirdClass" checked/>
         <td><label for="thirdClass">Third Class</label>
       <tr>
-        <td>Route ID
-        <td><input type="text" value="1" id="routeId"/>
+        <td>Route
+        <td><select name="route_id">
+            {{{ routes }}}
+            </select>
       <tr>
         <td>
         <td><input type="submit"/>
@@ -99,8 +92,8 @@
       <td class="resultsDepartureTime">DepartureTime
       <td class="resultsArrivialTime">ArrivialTime
       <td class="resultsRouteId">RouteID
-	  <td class="resultsDepartLoc">DepartingAirport
-	  <td class="resultsDestLoc">DestinationAirport
+  	  <td class="resultsDepartLoc">DepartingAirport
+  	  <td class="resultsDestLoc">DestinationAirport
       <td class="resultsTravelerId">TravelerID
       <td class="resultsSeatClass">SeatClass
     <tr>
@@ -109,10 +102,20 @@
       <td class="resultsDepartureTime">EXAMPLE
       <td class="resultsArrivialTime">EXAMPLE
       <td class="resultsRouteId">EXAMPLE
-	  <td class="resultsDepartLoc">EXAMPLE
-	  <td class="resultsDestLoc">EXAMPLE
+  	  <td class="resultsDepartLoc">EXAMPLE
+  	  <td class="resultsDestLoc">EXAMPLE
       <td class="resultsTravelerId">EXAMPLE
       <td class="resultsSeatClass">EXAMPLE
+    <tr>
+      <td class="resultsFlightId">0
+      <td class="resultsPlaneId">100
+      <td class="resultsDepartureTime">EXAMPLE
+      <td class="resultsArrivialTime">EXAMPLE
+      <td class="resultsRouteId">3
+  	  <td class="resultsDepartLoc">PDX
+  	  <td class="resultsDestLoc">SFO
+      <td class="resultsTravelerId">7
+      <td class="resultsSeatClass">2
   </table>
 
 	</div>

@@ -1,0 +1,37 @@
+<head>
+  <meta charset="utf-8" />
+  <title>OA DB Backend</title>
+  <h1 align="center">OREGONE AIRLINES DB ADMIN PAGE</h1>
+  <link rel="stylesheet" href="style.css" type="text/css">
+
+<body>
+  	{{{ links_table }}}
+  </div>
+  <h3 align="center">Create New Plane</h3>
+  <div>
+    <form action="/addPlane" , method="post">
+      <table>
+        <tr>
+          <td><strong>First Class Seats</strong>
+          <td><input type="number" value="" name="num_first_class_seats" />
+        <tr>
+          <td><strong>Second Class Seats</strong>
+          <td><input type="number" value="" name="num_second_class_seats" />
+        <tr>
+          <td><strong>Third Class Seats</strong>
+          <td><input type="number" value="" name="num_third_class_seats" />
+        <tr>
+          <td>
+          <td><input type="submit"></input>
+      </table>
+    </form>
+  </div>
+
+  <table id="results"> 
+    {{{ results }}}
+  </table>
+
+  <br>
+  <br>
+  </div>
+</body>

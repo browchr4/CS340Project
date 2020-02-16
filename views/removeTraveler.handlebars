@@ -4,16 +4,7 @@
 	<h1 align="center">OREGONE AIRLINES DB ADMIN PAGE</h1>
 	<link rel="stylesheet" href="style.css" type="text/css">
 <body>
-	<table id="linkMenu">
-		<tr>
-			<th><a class="linkRef" href="/" id="homeLink">Home</a></th>
-			<th><a class="linkRef" href="/addFlight" id="addLink">Add Flight</a></th>
-			<th><a class="linkRef" href="/getFlightInfo" id="searchLink">Search Flights</a></th>
-			<th><a class="linkRef" href="/addTraveler" id="travelLink">Book Traveler</a></th>
-			<th><a class="linkRef" href="/removeTraveler" id="travelLink">Cancel Traveler</a></th>
-			<th><a class="linkRef" href="/updateFlight" id="updateLink">Update Flight</a></th>
-		</tr>
-	</table>
+  	{{{ links_table }}}
 	</div>
 	<h3 align="center">Remove Traveler From Flight</h3>
 	<div>
@@ -21,14 +12,15 @@
 	<form id="removeTraveler" action="/removeTraveler", method="post">
     <table>
       <tr>
-        <td>First
-        <td><input type="text" id="firstName"/>
-      <tr>
-        <td>Last
-        <td><input type="text" id="lastName"/>
+        <td>Travelers
+        <td><select name="traveler_id">
+          {{{ travelers }}}
+        </select>
       <tr>
         <td>Flight ID
-        <td><input type="text" value="1" id="flightId"/>
+        <td><select name="flight_id">
+          {{{ flights }}}
+        </select>
       <tr>
         <td>
         <td><input type="submit"/>
@@ -38,6 +30,7 @@
 
 
   <table id="results"> 
+    {{{ results }}}
   </table>
-  
+
 </body>

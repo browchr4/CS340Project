@@ -1,0 +1,41 @@
+<head>
+  <meta charset="utf-8" />
+  <title>OA DB Backend</title>
+  <h1 align="center">OREGONE AIRLINES DB ADMIN PAGE</h1>
+  <link rel="stylesheet" href="style.css" type="text/css">
+
+<body>
+  	{{{ links_table }}}
+  </div>
+  <h3 align="center">Create New Crew Member</h3>
+  <div>
+    <form action="/addCrew" , method="post">
+      <table>
+        <tr>
+          <td><strong>First Name</strong>
+          <td><input type="text" value="" name="firstname" />
+        <tr>
+          <td><strong>Last Name</strong>
+          <td><input type="text" value="" name="lastname" />
+        <tr>
+          <td><strong>Role</strong>
+          <td><select name="role">
+              <option value="Pilot">Pilot</option>
+              <option value="Copilot">Copilot</option>
+              <option value="Steward">Steward</option>
+            </select>
+        <tr>
+          <td>
+          <td><input type="submit"></input>
+      </table>
+    </form>
+  </div>
+
+  <table id="results"> 
+    {{{ results }}}
+  </table>
+
+  <br>
+  <br>
+  </div>
+</body>

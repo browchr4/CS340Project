@@ -5,45 +5,48 @@
   <link rel="stylesheet" href="style.css" type="text/css">
 
 <body>
-  <table id="linkMenu">
-    <tr>
-      <th><a class="linkRef" href="/" id="homeLink">Home</a></th>
-      <th><a class="linkRef" href="/addFlight" id="addLink">Add Flight</a></th>
-      <th><a class="linkRef" href="/getFlightInfo" id="searchLink">Search Flights</a></th>
-      <th><a class="linkRef" href="/addTraveler" id="travelLink">Book Traveler</a></th>
-      <th><a class="linkRef" href="/removeTraveler" id="travelLink">Cancel Traveler</a></th>
-      <th><a class="linkRef" href="/updateFlight" id="updateLink">Update Flight</a></th>
-    </tr>
-  </table>
+  	{{{ links_table }}}
   </div>
   <h3 align="center">Create New Flight</h3>
   <div>
-    <form id="newFlight" action="/addFlight" , method="post">
+    <form action="/addFlight" , method="post">
       <table>
         <tr>
           <td><strong>Depart Date</strong>
-          <td><input type="datetime-local" value="2025-01-01T09:30" id="departDate" />
+          <td><input type="datetime-local" value="2025-01-01T09:30" name="projected_departure_datetime" />
         <tr>
           <td><strong>Arrival Date</strong>
-          <td><input type="datetime-local" value="2025-01-01T12:30" id="arrivalDate" />
+          <td><input type="datetime-local" value="2025-01-01T12:30" name="projected_arrivial_datetime" />
         <tr>
-          <td><strong>Departing Airport</strong>
-          <td><input type="text" value="PDX" id="departLocation" />
+          <td><strong>Route</strong>
+          <td><select name="route_id">
+            {{{ routes }}}
+              </select>
         <tr>
-          <td><strong>Arrival Airport</strong>
-          <td><input type="text" value="LAX" id="arrivalLocation" />
-        <tr>
-          <td><strong>Captain</strong>
-          <td><input type="text" id="crewIdOne" />
-        <tr>
-          <td><strong>CoPilot</strong>
-          <td><input type="text" id="crewIdTwo" />
-        <tr>
-          <td><strong>Steward</strong>
-          <td><input type="text" id="crewIdThree" />
+          <td><strong>CrewList</strong>
+          <td><select name="crewlist_id">
+              {{{ crewlists }}}
+            </select>
         <tr>
           <td><strong>Plane</strong>
-          <td><input type="text" id="planeId" />
+          <td><select name="plane_id">
+            {{{ planes }}}
+            </select>
+        <tr>
+          <td><strong>TravelerList First Class</strong>
+          <td><select name="first_class_travelerlist_id">
+            {{{ travelerlists }}}
+            </select>
+        <tr>
+          <td><strong>TravelerList Second Class</strong>
+          <td><select name="second_class_travelerlist_id">
+            {{{ travelerlists }}}
+            </select>
+        <tr>
+          <td><strong>TravelerList Third Class</strong>
+          <td><select name="third_class_travelerlist_id">
+            {{{ travelerlists }}}
+            </select>
         <tr>
           <td>
           <td><input type="submit"></input>
@@ -52,6 +55,7 @@
   </div>
 
   <table id="results"> 
+    {{{ results }}}
   </table>
 
   <br>

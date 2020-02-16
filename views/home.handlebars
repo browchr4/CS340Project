@@ -4,17 +4,7 @@
 	<h1 align="center">OREGONE AIRLINES DB ADMIN PAGE</h1>
 	<link rel="stylesheet" href="style.css" type="text/css">
 <body>
-	<table id="linkMenu">
-		<tr>
-			<th><a class="linkRef" href="/" id="homeLink">Home</a></th>
-			<th><a class="linkRef" href="/addFlight" id="addLink">Add Flight</a></th>
-			<th><a class="linkRef" href="/getFlightInfo" id="searchLink">Search Flights</a></th>
-			<th><a class="linkRef" href="/addTraveler" id="travelLink">Book Traveler</a></th>
-			<th><a class="linkRef" href="/removeTraveler" id="travelLink">Cancel Traveler</a></th>
-			<th><a class="linkRef" href="/updateFlight" id="updateLink">Update Flight</a></th>
-		</tr>
-	</table>
-	</div>
+	{{{ links_table }}}
 	<br>
 	<h3 align="center">Airline DB landing page</h3>
 	<div id="info">
@@ -23,11 +13,16 @@
 		to perform restricted CRUD activities to the airline's flight scheduling
 		database. Use a link above to perform one the following business tasks:
 		<ul>
-			<li>Add Flight - Schedule a new flight with an assigned route. This adds a flight
-			to the database with an assigned route, plane and crew.</li>
+      <li>Add Traveler - Adds a new Traveler who will take a seat on a travelerlist.
+      <li>Add Crew - Adds a new Crew member who will be a part of a crewlist.
+      <li>Add Plane - Adds a new Plane which can be a part of a flight.
+      <li>Add Location - Adds a departure or arrivial destination.
+      <li>Add Route - Links two locations as destination and arrivial, naming the route.
+      <li>Add to CrewList - Adds a Crew member to a crewlist.
+      <li>Add to TravelerList - Adds a Traveler to a travelerlist.
+      <li>Add Flight - Adds a flight to the flights.
 			<li>Search Flights - Allows a query of multiple tables in the database, with user
 			supplied constraints and view filters.</li>
-			<li>Book Traveler - Adds a Traveler to the TravelerList for an upcoming flight</li>
 			<li>Cancel Traveler - Allows a Traveler to remove themselves from an upcoming flight.
 			<li>Update Flight - Allows a scheduler to change the plane, crew, or departure time of
 			an already existing flight.</li>
