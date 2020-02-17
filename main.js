@@ -12,7 +12,7 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
 app.engine('handlebars', handlebars.engine);
 app.set('view engine', 'handlebars');
-app.set('port', 44213);
+app.set('port', 44225);
 
 
 
@@ -403,13 +403,10 @@ app.post('/addFlight', function (req, res) {
   first_class_travelerlist_id = req.body.first_class_travelerlist_id;
   second_class_travelerlist_id = req.body.second_class_travelerlist_id;
   third_class_travelerlist_id = req.body.third_class_travelerlist_id;
-  projected_departure_datetime = req.body.projected_departure_datetime;
-  projected_arrival_datetime = req.body.projected_arrival_datetime;
-  //https://stackoverflow.com/questions/29042911/how-do-i-split-the-date-and-time-into-two-elements
-  projected_departure_date = projected_departure_datetime.toLocaleDateString();
-  projected_departure_time = projected_departure_datetime.toLocaleTimeString();
-  projected_arrival_date = projected_arrival_datetime.toLocaleDateString();
-  projected_arrival_time = projected_arrival_datetime.toLocaleDateString();
+  projected_departure_date = req.body.projected_departure_date;
+  projected_arrival_date = req.body.projected_arrival_date;
+  projected_departure_time = req.body.projected_departure_time;
+  projected_arrival_time = req.body.projected_arrival_time;
 
   res.render('addFlight', {
     helpers: {
