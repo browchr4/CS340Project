@@ -502,7 +502,7 @@ app.post('/removeTraveler', function (req, res) {
       travelers: option_travelers,
       flights: option_flights,
       results: function() {
-        query = "REMOVE FROM TravelerList WHERE traveler_id='" + traveler_id + "' AND travelerlist_id IN (SELECT 'FIXME flight_id = '" + flight_id + "'') ;";
+          query = "DELETE FROM TravelerList WHERE traveler_id='" + traveler_id + " AND travelerlist_id IN (SELECT first_class_travelerlist_id, second_class_travelerlist_id, third_class_travelerlist_id FROM Flight WHERE flight_id = " + flight_id + "'') ;";
         console.log(query)
         return query;
       }
