@@ -403,13 +403,13 @@ app.post('/addFlight', function (req, res) {
   first_class_travelerlist_id = req.body.first_class_travelerlist_id;
   second_class_travelerlist_id = req.body.second_class_travelerlist_id;
   third_class_travelerlist_id = req.body.third_class_travelerlist_id;
-  projected_departure_datetime = req.body.projected_departure_datetime; // Fix Date and Time / Datetime
-  projected_arrivial_datetime = req.body.projected_arrivial_datetime; // Fix Date and Time / Datetime
-
-  //projected_departure_date = Date.parse(projected_departure_datetime); // Fix Date and Time / Datetime
-  //projected_departure_time = projected_departure_datetime; // Fix Date and Time / Datetime
-  //console.log(projected_departure_date); // Fix Date and Time / Datetime
-  //console.log(projected_departure_date.getOwnPropertyNames()); // Fix Date and Time / Datetime
+  projected_departure_datetime = req.body.projected_departure_datetime;
+  projected_arrival_datetime = req.body.projected_arrival_datetime;
+  //https://stackoverflow.com/questions/29042911/how-do-i-split-the-date-and-time-into-two-elements
+  projected_departure_date = projected_departure_datetime.toLocaleDateString();
+  projected_departure_time = projected_departure_datetime.toLocaleTimeString();
+  projected_arrival_date = projected_arrival_datetime.toLocaleDateString();
+  projected_arrival_time = projected_arrival_datetime.toLocaleDateString();
 
   res.render('addFlight', {
     helpers: {
@@ -420,9 +420,9 @@ app.post('/addFlight', function (req, res) {
       travelerlists: option_travelerlists,
       results: function() {
         query = "INSERT INTO Flight (route_id, crewlist_id, plane_id,  first_class_travelerlist_id, second_class_travelerlist_id, third_class_travelerlist_id,\
-       projected_arrivial_date, projected_arrivial_time, actual_arivial_date, actual_arrival_time)\
+       projected_departure_date, projected_departure_time, projected_arrival_date, projected_arrival_time)\
        VALUES (" + route_id + ", " + crewlist_id + ", " + plane_id + ", " + first_class_travelerlist_id + ", " + second_class_travelerlist_id + ", " + third_class_travelerlist_id + ",\
-       '" + 'FIXME' + "', '" + 'FIXME' + "', '" + 'FIXME' + "',  '" + 'FIXME' + "' )"; // Fix Date and Time / Datetime
+       '" + projected_departure_date + "', '" + projected_departure_time + "', '" + projected_arrival_date + "',  '" + projected_arrival_time + "' )";
         console.log(query);
         return query;
       }
