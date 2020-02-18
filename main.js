@@ -12,7 +12,7 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
 app.engine('handlebars', handlebars.engine);
 app.set('view engine', 'handlebars');
-app.set('port', 44225);
+app.set('port', 43125);
 
 
 
@@ -82,7 +82,8 @@ function getTraveler() {
   traveler.push({traveler_id:1, firstname:'Jannet', lastname:'Dones'});
   traveler.push({traveler_id:2, firstname:'Filbert', lastname:'Lones'});
   traveler.push({traveler_id:3, firstname:'Dilbert', lastname:'Pierr'});
-  traveler.push({traveler_id:4, firstname:'Jessica', lastname:'Zilch'});
+  traveler.push({ traveler_id: 4, firstname: 'Jessica', lastname: 'Zilch' });
+  traveler.push({ traveler_id: 5, firstname: 'NULL', lastname: 'NULL' });
   return traveler;
 }
 function getPlane() {
@@ -191,7 +192,8 @@ function links_table() {
       <td><a class="linkRef" href="/addTravelerList" id="addLink">Add To TravelerList</a></td>\
       <td><a class="linkRef" href="/addFlight" id="addLink">Add Flight</a></td>\
       <td style="width:50%"></td>\
-			<td><a class="linkRef" href="/getFlightInfo" id="searchLink">Search Flights</a></td>\
+			<td><a class="linkRef" href="/getFlightInfo" id="searchLink">Traveler History</a></td>\
+            <td><a class="linkRef" href="/flightManifest" id="searchLink">Flight Manifest</a></td>\
 			<td><a class="linkRef" href="/removeTraveler" id="travelLink">Cancel Traveler</a></td>\
 			<td><a class="linkRef" href="/updateFlight" id="updateLink">Update Flight</a></td>\
 	</table>';
@@ -316,6 +318,14 @@ app.get('/updateFlight', function (req, res) {
           flights: option_flights,
           planes: option_planes
       }
+    });
+});
+app.get('/flightManifest', function (req, res) {
+    res.render('flightManifest', {
+        helpers: {
+            links_table: links_table,
+            flights: option_flights
+        }
     });
 });
 
@@ -505,6 +515,22 @@ app.post('/getFlightInfo', function (req, res) {
     }
   })
 });
+app.post('/flightManifest', function (req, res) {
+    console.log(req.body);
+    flight_id = req.body.flight_id;
+    manifest_type = req.body.manifest_type;
+    res.render('flightManifest', {
+        helpers: {
+            flights: option_flights,
+            links_table: links_table,
+            results: function () {
+                query = "SELECT first_name, last_name FROM " + manifest_type + " LEFT JOIN " + manifest_type + "List ON " + manifest_type + "_id WHERE " + manifest_type + "list_id IN (SELECT first_class_travelerlist_id, first_class_travelerlist_id, first_class_travelerlist_id FROM Flight WHERE flight_id = " + flight_id + ";";
+                console.log(query);
+                return query;
+            }
+        }
+    })
+});
 app.post('/updateFlight', function (req, res) {
   console.log(req.body);
   flight_id = req.body.flight_id;
@@ -538,7 +564,7 @@ app.post('/removeTraveler', function (req, res) {
       travelers: option_travelers,
       flights: option_flights,
       results: function() {
-          query = "DELETE FROM TravelerList WHERE traveler_id='" + traveler_id + " AND travelerlist_id IN (SELECT first_class_travelerlist_id, second_class_travelerlist_id, third_class_travelerlist_id FROM Flight WHERE flight_id = " + flight_id + "'') ;";
+          query = "DELETE FROM TravelerList WHERE traveler_id='" + traveler_id + " AND travelerlist_id IN (SELECT traveler_id FROM TravelerList LEFT JOIN Flight ON first_class_travelerlist_id, second_class_travelerlist_id, third_class_travelerlist_id WHERE flight_id = " + flight_id + "'');";
         console.log(query)
         return query;
       }

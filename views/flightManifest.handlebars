@@ -1,0 +1,37 @@
+<head>
+    <meta charset="utf-8" />
+    <title>OA DB Backend</title>
+	<h1 align="center">OREGONE AIRLINES DB ADMIN PAGE</h1>
+	<link rel="stylesheet" href="style.css" type="text/css">
+<body>
+  	{{{ links_table }}}
+	</div>
+	<h3 align="center">Flight Manifest</h3>
+
+
+	<div>
+	<form id="flightManifest" action="/flightManifest", method="post">
+    <table>
+      <tr>
+        <td>FlightID
+        <td><select name="flight_id">
+		{{{ flights }}}
+		</select>
+      <tr>
+        <td>Manifest Type
+        <td><select name="manifest_type">
+			<option value="Traveler">Traveler</option>
+			<option value="Crew">Crew</option>
+			</select>
+      <tr>
+        <td>
+        <td><input type="submit"/>
+    </table>
+	</form>
+
+  <table id="results"> 
+    {{{ results }}}
+  </table>
+
+	</div>
+</body>
