@@ -197,6 +197,29 @@ function links_table() {
 	</table>';
 }
 
+function buildUpdate(plane_id, projected_departure_time, projected_departure_date, projected_arrival_time, projected_arrival_date) {
+    var builtString = '';
+    var emptyVal = '';
+    if (emptyVal.localeCompare(plane_id) != 0) {
+        builtString = builtString + "plane_id = " + plane_id + ", ";
+    }
+    if (emptyVal.localeCompare(projected_departure_time) != 0) {
+        builtString = builtString + "projected_departure_time = " + projected_departure_time + ", ";
+    }
+    if (emptyVal.localeCompare(projected_departure_date) != 0) {
+        builtString = builtString + "projected_departure_date = " + projected_departure_date + ", ";
+    }
+    if (emptyVal.localeCompare(projected_arrival_time) != 0) {
+        builtString = builtString + "projected_arrival_time = " + projected_arrival_time + ", ";
+    }
+    if (emptyVal.localeCompare(projected_arrival_date) != 0) {
+        builtString = builtString + "projected_arrival_date = " + projected_arrival_date + ", ";
+    }
+    var finalString = builtString.substring(0, builtString.length - 2);
+    return finalString;
+
+}
+
 //homepage
 app.get('/', function (req, res) {
     res.render('home', {
@@ -289,7 +312,9 @@ app.get('/removeTraveler', function (req, res) {
 app.get('/updateFlight', function (req, res) {
     res.render('updateFlight', {
       helpers: {
-        links_table: links_table
+          links_table: links_table,
+          flights: option_flights,
+          planes: option_planes
       }
     });
 });
@@ -375,7 +400,7 @@ app.post('/addLocation', function (req, res) {
   })
 });
 app.post('/addRoute', function (req, res) {
-  console.log(req.body)
+  console.log(req.body);
   name = req.body.name;
   departure_location_id = req.body.departure_location_id;
   arrivial_location_id = req.body.arrivial_location_id;
@@ -396,7 +421,7 @@ app.post('/addRoute', function (req, res) {
 
 });
 app.post('/addFlight', function (req, res) {
-  console.log(req.body)
+  console.log(req.body);
   route_id = req.body.route_id;
   crewlist_id = req.body.crewlist_id;
   plane_id = req.body.plane_id;
@@ -427,7 +452,7 @@ app.post('/addFlight', function (req, res) {
   })
 });
 app.post('/addCrewList', function (req, res) {
-  console.log(req.body)
+  console.log(req.body);
   crewlist_id = req.body.crewlist_id;
   crew_id = req.body.crew_id;
 
@@ -449,7 +474,7 @@ app.post('/addCrewList', function (req, res) {
   })
 });
 app.post('/addTravelerList', function (req, res) {
-  console.log(req.body)
+  console.log(req.body);
   travelerlist_id = req.body.travelerlist_id;
   traveler_id = req.body.traveler_id;
 
@@ -472,7 +497,7 @@ app.post('/addTravelerList', function (req, res) {
   })
 });
 app.post('/getFlightInfo', function (req, res) {
-  console.log(req.body)
+  console.log(req.body);
   res.render('getFlightInfo', {
     helpers: {
       links_table: links_table,
@@ -481,15 +506,29 @@ app.post('/getFlightInfo', function (req, res) {
   })
 });
 app.post('/updateFlight', function (req, res) {
-  console.log(req.body)
+  console.log(req.body);
+  flight_id = req.body.flight_id;
+  plane_id = req.body.plane_id;
+  projected_departure_time = req.body.depart_time;
+  projected_departure_date = req.body.depart_date;
+  projected_arrival_time = req.body.arrival_time;
+  projected_arrival_date = req.body.arrival_date;
   res.render('updateFlight', {
-    helpers: {
-      links_table: links_table
+      helpers: {
+      flights: option_flights,
+      planes: option_planes,
+      links_table: links_table,
+      results: function () {
+          updateCols = buildUpdate(plane_id, projected_departure_time, projected_departure_date, projected_arrival_time, projected_arrival_date);
+          query = "UPDATE Flight SET " + updateCols + " WHERE flight_id = " + flight_id + ";";
+          console.log(query);
+          return query;
+      }
     }
   })
 });
 app.post('/removeTraveler', function (req, res) {
-  console.log(req.body)
+ console.log(req.body);
   traveler_id = req.body.traveler_id;
   flight_id = req.body.flight_id;
 

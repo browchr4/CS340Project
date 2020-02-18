@@ -1,4 +1,4 @@
-<head>
+﻿<head>
     <meta charset="utf-8" />
     <title>OA DB Backend</title>
 	<h1 align="center">OREGONE AIRLINES DB ADMIN PAGE</h1>
@@ -8,29 +8,29 @@
 	</div>
 	<h3 align="center">Update Flight</h3>
 	<div>
-	<form id="updateFlight" action="/updateFlight", method="post">
+	<form action="/updateFlight", method="post">
     <table>
       <tr>
         <td>FlightID
-        <td><input type="text" value="1" id="flightId"/>
+        <td><select name="flight_id">
+            <option value="1">1</option>
+            {{{ flights }}}
+            </select>
       <tr>
         <td>PlaneID
-        <td><input type="text" id="planeId"/>
+        <td><input type="number" name="plane_id"/>
+      <tr>
+        <td>Depart Time
+        <td><input type="time" name="depart_time"/>
+      <tr>
+        <td>Arrival Time
+        <td><input type="time" name="arrival_time"/>
       <tr>
         <td>Depart Date
-        <td><input type="datetime-local"id="departDate"/>
+        <td><input type="date" name="depart_date" />
       <tr>
         <td>Arrival Date
-        <td><input type="datetime-local" id="arrivalDate"/>
-      <tr>
-        <td>Captain
-        <td><input type="text" id="crewIdOne"/>
-      <tr>
-        <td>CoPilot
-        <td><input type="text" id="crewIdTwo"/>
-      <tr>
-        <td>Steward
-        <td><input type="text" id="crewIdThree"/>
+        <td><input type="date" name="arrival_date" />
       <tr>
         <td>
         <td><input type="submit"/>
@@ -40,6 +40,7 @@
 
 
   <table id="results"> 
+      {{{ results }}}
   </table>
 
 </body>
