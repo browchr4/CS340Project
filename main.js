@@ -1,29 +1,6 @@
 var express = require('express');
 var os = require('os');
-var mysql = require('mysql');
-
-var sql_config_file = require('./sql_config_file.js')
-var sql_config = sql_config_file.sql_config;
-/* sql_config_file.js
-..    var sql_config = {
-..            host: 'my_host_here',
-..            user: 'my_username_here',
-..            password: 'my_password_here',
-..            database: 'my_database_here'
-..    }
-..
-..    module.exports.sql_config = sql_config;
-*/
-
-sql_con = mysql.createConnection(sql_config);
-sql_con.connect(function(err) {
-        if (err) {
-          console.log('ERROR: Sql Connection Failed: ' + err.stack);
-          exit();
-        } else {
-          console.log('SQL Server Connected: ' + sql_con.threadId)
-        }
-});
+var mysql = require('./dbcon.js');
 
 var app = express();
 var handlebars = require('express-handlebars').create({ defaultLayout: 'main' });
@@ -815,16 +792,16 @@ app.get('/addLocation', function (req, res) {
   res.send(HTML_add_location(links_table(), ""));
 });
 app.get('/addRoute', function (req, res) {
-  sql_con.query("SELECT * from Location;", function (err, result, fields) {
+  mysql.pool.query("SELECT * from Location;", function (err, result, fields) {
     res.send(HTML_add_route(links_table(), HTML_option_locations(result), ""));
   });
 });
 
 app.get('/addFlight', function (req, res) {
-  sql_con.query("SELECT * from Route;", function (err, route, fields) {
-    sql_con.query("SELECT DISTINCT crewlist_id from CrewList;", function(err, crewlist, fields) {
-      sql_con.query("SELECT * from Plane;", function(err, plane, fields) {
-        sql_con.query("SELECT DISTINCT travelerlist_id from TravelerList;", function(err, travelerlist, fields) {
+  mysql.pool.query("SELECT * from Route;", function (err, route, fields) {
+    mysql.pool.query("SELECT DISTINCT crewlist_id from CrewList;", function(err, crewlist, fields) {
+      mysql.pool.query("SELECT * from Plane;", function(err, plane, fields) {
+        mysql.pool.query("SELECT DISTINCT travelerlist_id from TravelerList;", function(err, travelerlist, fields) {
           res.send(HTML_add_flight(links_table(), HTML_option_routes(route), HTML_option_crewlists(crewlist), HTML_option_planes(plane), HTML_option_travelerlists(travelerlist), ""));
         });
       });
@@ -832,40 +809,40 @@ app.get('/addFlight', function (req, res) {
   });
 });
 app.get('/addCrewList', function (req, res) {
-  sql_con.query("SELECT DISTINCT crewlist_id from CrewList;", function (err, crewlist, fields) {
-    sql_con.query("SELECT * from Crew;", function(err, crew, fields) {
+  mysql.pool.query("SELECT DISTINCT crewlist_id from CrewList;", function (err, crewlist, fields) {
+    mysql.pool.query("SELECT * from Crew;", function(err, crew, fields) {
       res.send(HTML_add_crewlist(links_table(), HTML_option_crewlists(crewlist), HTML_option_crews(crew), ""));
     });
   });
 });
 app.get('/addTravelerList', function (req, res) {
-  sql_con.query("SELECT DISTINCT travelerlist_id from TravelerList;", function (err, travelerlist, fields) {
-    sql_con.query("SELECT * from Traveler;", function(err, traveler, fields) {
+  mysql.pool.query("SELECT DISTINCT travelerlist_id from TravelerList;", function (err, travelerlist, fields) {
+    mysql.pool.query("SELECT * from Traveler;", function(err, traveler, fields) {
       res.send(HTML_add_travelerlist(links_table(), HTML_option_travelerlists(travelerlist), HTML_option_travelers(traveler), ""));
     });
   });
 });
 
 app.get('/getFlightInfo', function (req, res) {
-  sql_con.query("SELECT * from Route;", function (err, route, fields) {
+  mysql.pool.query("SELECT * from Route;", function (err, route, fields) {
     res.send(HTML_get_flight_info(links_table(), HTML_option_routes(route), ""));
   });
 });
 app.get('/flightManifest', function (req, res) {
-  sql_con.query("SELECT * from Flight;", function(err, flight, fields) {
+  mysql.pool.query("SELECT * from Flight;", function(err, flight, fields) {
     res.send(HTML_flight_manifest(links_table(), HTML_option_flights(flight), ""));
   });
 });
 app.get('/updateFlight', function (req, res) {
-  sql_con.query("SELECT * from Plane;", function(err, plane, fields) {
-    sql_con.query("SELECT * from Flight;", function(err, flight, fields) {
+  mysql.pool.query("SELECT * from Plane;", function(err, plane, fields) {
+    mysql.pool.query("SELECT * from Flight;", function(err, flight, fields) {
       res.send(HTML_update_flight(links_table(), HTML_option_flights(flight), HTML_option_planes(plane), ""));
     });
   });
 });
 app.get('/removeTraveler', function (req, res) {
-  sql_con.query("SELECT * from Traveler;", function(err, traveler, fields) {
-    sql_con.query("SELECT * from Flight;", function(err, flight, fields) {
+  mysql.pool.query("SELECT * from Traveler;", function(err, traveler, fields) {
+    mysql.pool.query("SELECT * from Flight;", function(err, flight, fields) {
       res.send(HTML_remove_traveler(links_table(), HTML_option_travelers(traveler), HTML_option_flights(flight), ""));
     });
   });
@@ -881,7 +858,7 @@ app.post('/addTraveler', function (req, res) {
   last_name = req.body.last_name;
 
   query = "INSERT INTO Traveler (first_name, last_name) VALUES ('" + first_name + "', '" + last_name + "');"
-  sql_con.query(query, function(err, query_results, fields) {
+  mysql.pool.query(query, function(err, query_results, fields) {
     console.log( query + "\n");
     res.send(HTML_add_traveler(links_table(), ""));
   });
@@ -894,7 +871,7 @@ app.post('/addCrew', function (req, res) {
   role = req.body.role;
 
   query = "INSERT INTO Crew (first_name, last_name, role) VALUES ('" + first_name + "', '" + last_name + "', '" + role + "');"
-  sql_con.query(query, function(err, query_results, fields) {
+  mysql.pool.query(query, function(err, query_results, fields) {
     console.log( query + "\n");
     res.send(HTML_add_crew(links_table(), ""));
   });
@@ -907,7 +884,7 @@ app.post('/addPlane', function (req, res) {
   num_third_class_seats = req.body.num_third_class_seats;
 
   query = "INSERT INTO Plane (num_first_class_seats, num_second_class_seats, num_third_class_seats) VALUES (" + num_first_class_seats + ", " + num_second_class_seats + ", " + num_third_class_seats + ");"
-  sql_con.query(query, function(err, query_results, fields) {
+  mysql.pool.query(query, function(err, query_results, fields) {
     console.log( query + "\n");
     res.send(HTML_add_plane(links_table(), ""));
   });
@@ -921,7 +898,7 @@ app.post('/addLocation', function (req, res) {
   zip = req.body.zip;
 
   query = "INSERT INTO Location (city, state, airport_code, zip) VALUES ('" + city + "', '" + state + "', '" + airport_code + "', " + zip + ");"
-  sql_con.query(query, function(err, query_results, fields) {
+  mysql.pool.query(query, function(err, query_results, fields) {
     console.log( query + "\n");
     res.send(HTML_add_location(links_table(), ""));
   });
@@ -934,9 +911,9 @@ app.post('/addRoute', function (req, res) {
   arrivial_location_id = req.body.arrivial_location_id;
 
   query = "REPLACE INTO Route (name, departure_location_id, arrival_location_id) VALUES ('" + name + "', " + departure_location_id + ", " + arrivial_location_id + " );"
-  sql_con.query(query, function(err, query_results, fields) {
+  mysql.pool.query(query, function(err, query_results, fields) {
     console.log( query + "\n");
-    sql_con.query("SELECT * from Location;", function (err, result, fields) {
+    mysql.pool.query("SELECT * from Location;", function (err, result, fields) {
       res.send(HTML_add_route(links_table(), HTML_option_locations(result), ""));
     });
   });
@@ -961,12 +938,12 @@ app.post('/addFlight', function (req, res) {
   '" + projected_departure_date + "', '" + projected_departure_time + "', '" + projected_arrival_date + "',  '" + projected_arrival_time + "' )";
   // console.log("INCOMPLETE::::::: " + query);
   query = "";
-  sql_con.query(query, function(err, query_results, fields) {
+  mysql.pool.query(query, function(err, query_results, fields) {
     console.log( query + "\n");
-    sql_con.query("SELECT * from Route;", function (err, route, fields) {
-      sql_con.query("SELECT DISTINCT crewlist_id from CrewList;", function(err, crewlist, fields) {
-        sql_con.query("SELECT * from Plane;", function(err, plane, fields) {
-          sql_con.query("SELECT DISTINCT travelerlist_id from TravelerList;", function(err, travelerlist, fields) {
+    mysql.pool.query("SELECT * from Route;", function (err, route, fields) {
+      mysql.pool.query("SELECT DISTINCT crewlist_id from CrewList;", function(err, crewlist, fields) {
+        mysql.pool.query("SELECT * from Plane;", function(err, plane, fields) {
+          mysql.pool.query("SELECT DISTINCT travelerlist_id from TravelerList;", function(err, travelerlist, fields) {
             res.send(HTML_add_flight(links_table(), HTML_option_routes(route), HTML_option_crewlists(crewlist), HTML_option_planes(plane), HTML_option_travelerlists(travelerlist), ""));
           });
         });
@@ -984,10 +961,10 @@ app.post('/addCrewList', function (req, res) {
   } else {
     query = "INSERT INTO CrewList (crewlist_id, crew_id) VALUES ('" + crewlist_id + "', '" + crew_id + "');";
   }
-  sql_con.query(query, function(err, query_results, fields) {
+  mysql.pool.query(query, function(err, query_results, fields) {
     console.log( query + "\n");
-    sql_con.query("SELECT DISTINCT crewlist_id from CrewList;", function (err, crewlist, fields) {
-      sql_con.query("SELECT * from Crew;", function(err, crew, fields) {
+    mysql.pool.query("SELECT DISTINCT crewlist_id from CrewList;", function (err, crewlist, fields) {
+      mysql.pool.query("SELECT * from Crew;", function(err, crew, fields) {
         res.send(HTML_add_crewlist(links_table(), HTML_option_crewlists(crewlist), HTML_option_crews(crew), ""));
       });
     });
@@ -1004,10 +981,10 @@ app.post('/addTravelerList', function (req, res) {
   } else {
     query = "INSERT INTO TravelerList (travelerlist_id, traveler_id) VALUES (" + travelerlist_id + "," + traveler_id + ")";
   }
-  sql_con.query(query, function(err, query_results, fields) {
+  mysql.pool.query(query, function(err, query_results, fields) {
     console.log( query + "\n");
-    sql_con.query("SELECT DISTINCT travelerlist_id from TravelerList;", function (err, travelerlist, fields) {
-      sql_con.query("SELECT * from Traveler;", function(err, traveler, fields) {
+    mysql.pool.query("SELECT DISTINCT travelerlist_id from TravelerList;", function (err, travelerlist, fields) {
+      mysql.pool.query("SELECT * from Traveler;", function(err, traveler, fields) {
         res.send(HTML_add_travelerlist(links_table(), HTML_option_travelerlists(travelerlist), HTML_option_travelers(traveler), ""));
       });
     });
@@ -1016,7 +993,7 @@ app.post('/addTravelerList', function (req, res) {
 });
 app.post('/getFlightInfo', function (req, res) {
   console.log(req.body);
-  sql_con.query("SELECT * from Route;", function (err, route, fields) {
+  mysql.pool.query("SELECT * from Route;", function (err, route, fields) {
     res.send(HTML_get_flight_info(links_table(), HTML_option_routes(route), ""));
   });
 
@@ -1026,7 +1003,7 @@ app.post('/flightManifest', function (req, res) {
     flight_id = req.body.flight_id;
     manifest_type = req.body.manifest_type;
 
-    sql_con.query("SELECT * from Flight;", function(err, flight, fields) {
+    mysql.pool.query("SELECT * from Flight;", function(err, flight, fields) {
       res.send(HTML_flight_manifest(links_table(), HTML_option_flights(flight), ""));
     });
 });
@@ -1039,8 +1016,8 @@ app.post('/updateFlight', function (req, res) {
   projected_arrival_time = req.body.arrival_time;
   projected_arrival_date = req.body.arrival_date;
 
-  sql_con.query("SELECT * from Plane;", function(err, plane, fields) {
-    sql_con.query("SELECT * from Flight;", function(err, flight, fields) {
+  mysql.pool.query("SELECT * from Plane;", function(err, plane, fields) {
+    mysql.pool.query("SELECT * from Flight;", function(err, flight, fields) {
       res.send(HTML_update_flight(links_table(), HTML_option_flights(flight), HTML_option_planes(plane), ""));
     });
   });
@@ -1050,8 +1027,8 @@ app.post('/removeTraveler', function (req, res) {
   traveler_id = req.body.traveler_id;
   flight_id = req.body.flight_id;
 
-  sql_con.query("SELECT * from Traveler;", function(err, traveler, fields) {
-    sql_con.query("SELECT * from Flight;", function(err, flight, fields) {
+  mysql.pool.query("SELECT * from Traveler;", function(err, traveler, fields) {
+    mysql.pool.query("SELECT * from Flight;", function(err, flight, fields) {
       res.send(HTML_remove_traveler(links_table(), HTML_option_travelers(traveler), HTML_option_flights(flight), ""));
     });
   });
