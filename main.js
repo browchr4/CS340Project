@@ -1,5 +1,29 @@
-﻿var express = require('express');
+var express = require('express');
 var os = require('os');
+var mysql = require('mysql');
+
+var sql_config_file = require('./sql_config_file.js')
+var sql_config = sql_config_file.sql_config;
+/* sql_config_file.js
+..    var sql_config = {
+..            host: 'my_host_here',
+..            user: 'my_username_here',
+..            password: 'my_password_here',
+..            database: 'my_database_here'
+..    }
+..
+..    module.exports.sql_config = sql_config;
+*/
+
+sql_con = mysql.createConnection(sql_config);
+sql_con.connect(function(err) {
+        if (err) {
+          console.log('ERROR: Sql Connection Failed: ' + err.stack);
+          exit();
+        } else {
+          console.log('SQL Server Connected: ' + sql_con.threadId)
+        }
+});
 
 var app = express();
 var handlebars = require('express-handlebars').create({ defaultLayout: 'main' });
@@ -13,169 +37,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.engine('handlebars', handlebars.engine);
 app.set('view engine', 'handlebars');
 app.set('port', 43125);
-
-
-
-function getRoute() {
-  query = "SELECT * from Route";
-  console.log(query);
-  route = [];
-  route.push({route_id:0, name:'abc', departure_location_id:0, arrivial_location_id:1});
-  route.push({route_id:1, name:'def', departure_location_id:0, arrivial_location_id:2});
-  route.push({route_id:2, name:'hij', departure_location_id:0, arrivial_location_id:3});
-  route.push({route_id:3, name:'klm', departure_location_id:1, arrivial_location_id:0});
-  route.push({route_id:4, name:'nop', departure_location_id:1, arrivial_location_id:2});
-  route.push({route_id:5, name:'qrs', departure_location_id:1, arrivial_location_id:3});
-  route.push({route_id:6, name:'tuv', departure_location_id:2, arrivial_location_id:0});
-  route.push({route_id:7, name:'wxy', departure_location_id:2, arrivial_location_id:1});
-  route.push({route_id:8, name:'zAA', departure_location_id:2, arrivial_location_id:3});
-  route.push({route_id:9, name:'BBC', departure_location_id:3, arrivial_location_id:0});
-  route.push({route_id:10, name:'CDD', departure_location_id:3, arrivial_location_id:1});
-  route.push({route_id:11, name:'EEF', departure_location_id:3, arrivial_location_id:2});
-  return route;
-}
-function getLocation() {
-  query = "SELECT * from Location";
-  console.log(query);
-  location = []
-  location.push({location_id:0, city:'Corvallis', state:'Oregon', zip:97333, airport_code:'COR'})
-  location.push({location_id:1, city:'Portland', state:'Oregon', zip:97222, airport_code:'PDX'})
-  location.push({location_id:2, city:'San Francisco', state:'California', zip:87865, airport_code:'SFO'})
-  location.push({location_id:3, city:'Eugene', state:'Oregon', zip:97111, airport_code:'EUG'})
-  return location;
-};
-function getCrewList() {
-  query = "SELECT DISTINCT crewlist_id FROM CrewList";
-  console.log(query);
-  crewList = []
-  crewList.push({crewlist_id:0})
-  crewList.push({crewlist_id:1})
-  crewList.push({crewlist_id:2})
-  return crewList;
-};
-function getCrew() {
-  query = "SELECT * from Crew";
-  console.log(query);
-  crew = [];
-  crew.push({crew_id:0, firstname:'Bob', lastname:'Jones', role:'Pilot'});
-  crew.push({crew_id:1, firstname:'Jane', lastname:'Gwenifer', role:'Pilot'});
-  crew.push({crew_id:2, firstname:'Yoda', lastname:'Baby', role:'Steward'});
-  crew.push({crew_id:3, firstname:'Zillian', lastname:'Zepher', role:'Copilot'});
-  return crew;
-};
-function getTravelerList() {
-  query = "SELECT DISTINCT travelerlist_id from TravelerList";
-  console.log(query);
-  travelerList = []
-  travelerList.push({travelerlist_id:0})
-  travelerList.push({travelerlist_id:1})
-  travelerList.push({travelerlist_id:2})
-  travelerList.push({travelerlist_id:3})
-  travelerList.push({travelerlist_id:4})
-  return travelerList;
-}
-function getTraveler() {
-  query = "SELECT * from Traveler";
-  console.log(query);
-  traveler = []
-  traveler.push({traveler_id:0, firstname:'Bob', lastname:'Jones'});
-  traveler.push({traveler_id:1, firstname:'Jannet', lastname:'Dones'});
-  traveler.push({traveler_id:2, firstname:'Filbert', lastname:'Lones'});
-  traveler.push({traveler_id:3, firstname:'Dilbert', lastname:'Pierr'});
-  traveler.push({ traveler_id: 4, firstname: 'Jessica', lastname: 'Zilch' });
-  traveler.push({ traveler_id: 5, firstname: 'NULL', lastname: 'NULL' });
-  return traveler;
-}
-function getPlane() {
-  query = "SELECT * from Plane";
-  console.log(query);
-  plane = [];
-  plane.push({plane_id:0, num_first_class_seats:20, num_second_class_seats: 30, num_third_class_seats:40});
-  plane.push({plane_id:1, num_first_class_seats:20, num_second_class_seats: 30, num_third_class_seats:40});
-  plane.push({plane_id:2, num_first_class_seats:20, num_second_class_seats: 30, num_third_class_seats:40});
-  plane.push({plane_id:3, num_first_class_seats:20, num_second_class_seats: 30, num_third_class_seats:40});
-  plane.push({plane_id:4, num_first_class_seats:20, num_second_class_seats: 30, num_third_class_seats:40});
-  plane.push({plane_id:5, num_first_class_seats:20, num_second_class_seats: 30, num_third_class_seats:40});
-  plane.push({plane_id:6, num_first_class_seats:20, num_second_class_seats: 30, num_third_class_seats:40});
-  plane.push({plane_id:7, num_first_class_seats:20, num_second_class_seats: 30, num_third_class_seats:40});
-  return plane;
-};
-function getFlight() {
-  query = "SELECT * from Flight";
-  flight = [];
-  flight.push({flight_id:0});
-  flight.push({flight_id:1});
-  flight.push({flight_id:2});
-  flight.push({flight_id:3});
-  flight.push({flight_id:4});
-  flight.push({flight_id:5});
-  return flight;
-}
-
-function option_routes() {
-  route = getRoute();
-  output = ""
-  for (let i = 0; i < route.length; i++) {
-    output = output + "<option value=\"" + route[i].route_id + "\">" + route[i].name + "</option>";
-  }
-  return output;
-}
-function option_locations() {
-  location = getLocation();
-  output = ""
-  for (let i = 0; i < location.length; i++) {
-    output = output + "<option value=\"" + location[i].location_id + "\">" + location[i].airport_code + "</option>";
-  }
-  return output;
-}
-function option_crewlists() {
-  crewList = getCrewList()
-  output = ""
-  for (let i = 0; i < crewList.length; i++) {
-    output = output + "<option value=\"" + crewList[i].crewlist_id + "\">" + crewList[i].crewlist_id + "</option>";
-  }
-  return output;
-}
-function option_crews() {
-  crew = getCrew();
-  output = ""
-  for (let i = 0; i < crew.length; i++) {
-    output = output + "<option value=\"" + crew[i].crew_id + "\">" + crew[i].firstname + " " + crew[i].lastname + "</option>";
-  }
-  return output;
-}
-function option_travelerlists() {
-  travelerList = getTravelerList();
-  output = ""
-  for (let i = 0; i < travelerList.length; i++) {
-    output = output + "<option value=\"" + travelerList[i].travelerlist_id + "\">" + travelerList[i].travelerlist_id + "</option>";
-  }
-  return output;
-}
-function option_travelers() {
-  traveler = getTraveler();
-  output = ""
-  for (let i = 0; i < traveler.length; i++) {
-    output = output + "<option value=\"" + traveler[i].traveler_id + "\">" + traveler[i].firstname + " " + traveler[i].lastname + "</option>";
-  }
-  return output;
-}
-function option_planes() {
-  plane = getPlane();
-  output = ""
-  for (let i = 0; i < plane.length; i++) {
-    output = output + "<option value=\"" + plane[i].plane_id + "\">" + plane[i].plane_id + "</option>";
-  }
-  return output;
-}
-function option_flights() {
-  flight = getFlight();
-  output = ""
-  for (let i = 0; i < flight.length; i++) {
-    output = output + "<option value=\"" + flight[i].flight_id + "\">" + flight[i].flight_id + "</option>";
-  }
-  return output;
-}
 
 
 function links_table() {
@@ -193,143 +54,822 @@ function links_table() {
       <td><a class="linkRef" href="/addFlight" id="addLink">Add Flight</a></td>\
       <td style="width:50%"></td>\
 			<td><a class="linkRef" href="/getFlightInfo" id="searchLink">Traveler History</a></td>\
-            <td><a class="linkRef" href="/flightManifest" id="searchLink">Flight Manifest</a></td>\
+      <td><a class="linkRef" href="/flightManifest" id="searchLink">Flight Manifest</a></td>\
 			<td><a class="linkRef" href="/removeTraveler" id="travelLink">Cancel Traveler</a></td>\
 			<td><a class="linkRef" href="/updateFlight" id="updateLink">Update Flight</a></td>\
 	</table>';
 }
+function HTML_home(links_table, results) {
+  output = `<head>
+      <meta charset="utf-8" />
+      <title>OA DB Backend</title>
+  	<h1 align="center">OREGONE AIRLINES DB ADMIN PAGE</h1>
+  	<link rel="stylesheet" href="style.css" type="text/css">
+  <body>
+  	${links_table}
+  	<br>
+  	<h3 align="center">Airline DB landing page</h3>
+  	<div id="info">
+  		Welcome to the Oregone Airlines backend administration page.
+  		The purpose of this site is to give act as a GUI allowing airline employees
+  		to perform restricted CRUD activities to the airline's flight scheduling
+  		database. Use a link above to perform one the following business tasks:
+  		<ul>
+        <li>Add Traveler - Adds a new Traveler who will take a seat on a travelerlist.
+        <li>Add Crew - Adds a new Crew member who will be a part of a crewlist.
+        <li>Add Plane - Adds a new Plane which can be a part of a flight.
+        <li>Add Location - Adds a departure or arrivial destination.
+        <li>Add Route - Links two locations as destination and arrivial, naming the route.
+        <li>Add to CrewList - Adds a Crew member to a crewlist.
+        <li>Add to TravelerList - Adds a Traveler to a travelerlist.
+        <li>Add Flight - Adds a flight to the flights.
+  			<li>Search Flights - Allows a query of multiple tables in the database, with user
+  			supplied constraints and view filters.</li>
+  			<li>Cancel Traveler - Allows a Traveler to remove themselves from an upcoming flight.
+  			<li>Update Flight - Allows a scheduler to change the plane, crew, or departure time of
+  			an already existing flight.</li>
+  		</ul>
+  	</div>
 
-function buildUpdate(plane_id, projected_departure_time, projected_departure_date, projected_arrival_time, projected_arrival_date) {
-    var builtString = '';
-    var emptyVal = '';
-    if (emptyVal.localeCompare(plane_id) != 0) {
-        builtString = builtString + "plane_id = " + plane_id + ", ";
-    }
-    if (emptyVal.localeCompare(projected_departure_time) != 0) {
-        builtString = builtString + "projected_departure_time = " + projected_departure_time + ", ";
-    }
-    if (emptyVal.localeCompare(projected_departure_date) != 0) {
-        builtString = builtString + "projected_departure_date = " + projected_departure_date + ", ";
-    }
-    if (emptyVal.localeCompare(projected_arrival_time) != 0) {
-        builtString = builtString + "projected_arrival_time = " + projected_arrival_time + ", ";
-    }
-    if (emptyVal.localeCompare(projected_arrival_date) != 0) {
-        builtString = builtString + "projected_arrival_date = " + projected_arrival_date + ", ";
-    }
-    var finalString = builtString.substring(0, builtString.length - 2);
-    return finalString;
+    <table id="results"> 
+      ${results}
+    </table>
+  </body>`;
+
+  return output;
+}
+function HTML_add_traveler(links, results) {
+  output = `<head>
+      <meta charset="utf-8" />
+      <title>OA DB Backend</title>
+  	<h1 align="center">OREGONE AIRLINES DB ADMIN PAGE</h1>
+  	<link rel="stylesheet" href="style.css" type="text/css">
+  <body>
+    	${links}
+  	</div>
+  	<h3 align="center">Add Traveler</h3>
+  	<div>
+  	<h4>Traveler</h4>
+  	<form id="addTraveler" action="/addTraveler", method="post">
+      <table>
+        <tr>
+          <td>First
+          <td><input type="text" name="first_name"/>
+        <tr>
+          <td>Last
+          <td><input type="text" name="last_name"/>
+        <tr>
+          <td>
+          <td><input type="submit"/>
+      </table>
+  	</form>
+  	</div>
+
+
+    <table id="results"> 
+      ${results}
+    </table>
+
+  </body>
+`;
+return output;
 
 }
+function HTML_add_crew(links, results) {
+  output = `
+  <head>
+    <meta charset='utf-8' />
+    <title>OA DB Backend</title>
+    <h1 align='center'>OREGONE AIRLINES DB ADMIN PAGE</h1>
+    <link rel='stylesheet' href='style.css' type='text/css'>
+  <body>
+    	${links}
+    </div>
+    <h3 align='center'>Create New Crew Member</h3>
+    <div>
+      <form action='/addCrew' , method='post'>
+        <table>
+          <tr>
+            <td><strong>First Name</strong>
+            <td><input type='text' value='' name='first_name' />
+          <tr>
+            <td><strong>Last Name</strong>
+            <td><input type='text' value='' name='last_name' />
+          <tr>
+            <td><strong>Role</strong>
+            <td><select name='role'>
+                <option value='Pilot'>Pilot</option>
+                <option value='Copilot'>Copilot</option>
+                <option value='Steward'>Steward</option>
+              </select>
+          <tr>
+            <td>
+            <td><input type='submit'></input>
+        </table>
+      </form>
+    </div>
+    <table id='results'> 
+      ${results}
+    </table>
+    <br>
+    <br>
+    </div>
+  </body>
+`;
 
-//homepage
+  return output;
+}
+function HTML_add_plane(links, results) {
+  output = `<head>
+    <meta charset="utf-8" />
+    <title>OA DB Backend</title>
+    <h1 align="center">OREGONE AIRLINES DB ADMIN PAGE</h1>
+    <link rel="stylesheet" href="style.css" type="text/css">
+
+  <body>
+    	${links}
+    </div>
+    <h3 align="center">Create New Plane</h3>
+    <div>
+      <form action="/addPlane" , method="post">
+        <table>
+          <tr>
+            <td><strong>First Class Seats</strong>
+            <td><input type="number" value="" name="num_first_class_seats" />
+          <tr>
+            <td><strong>Second Class Seats</strong>
+            <td><input type="number" value="" name="num_second_class_seats" />
+          <tr>
+            <td><strong>Third Class Seats</strong>
+            <td><input type="number" value="" name="num_third_class_seats" />
+          <tr>
+            <td>
+            <td><input type="submit"></input>
+        </table>
+      </form>
+    </div>
+
+    <table id="results"> 
+      ${results}
+    </table>
+
+    <br>
+    <br>
+    </div>
+  </body>
+`;
+
+return output;
+
+}
+function HTML_add_location(links, results) {
+  output = `<head>
+    <meta charset="utf-8" />
+    <title>OA DB Backend</title>
+    <h1 align="center">OREGONE AIRLINES DB ADMIN PAGE</h1>
+    <link rel="stylesheet" href="style.css" type="text/css">
+
+  <body>
+    	${links}
+    </div>
+    <h3 align="center">Create New Location</h3>
+    <div>
+      <form action="/addLocation" , method="post">
+        <table>
+          <tr>
+            <td><strong>City</strong>
+            <td><input type="text" value="" name="city" />
+          <tr>
+            <td><strong>State</strong>
+            <td><input type="text" value="" name="state" />
+          <tr>
+            <td><strong>ZIP</strong>
+            <td><input type="number" value="" name="zip" />
+          <tr>
+            <td><strong>Airport CODE</strong>
+            <td><input type="text" value="" name="airport_code" />
+          <tr>
+            <td>
+            <td><input type="submit"></input>
+        </table>
+      </form>
+    </div>
+
+    <table id="results"> 
+      ${results}
+    </table>
+
+    <br>
+    <br>
+    </div>
+  </body>
+`;
+return output;
+}
+function HTML_add_route(links, location_options, results) {
+  output = `<head>
+    <meta charset="utf-8" />
+    <title>OA DB Backend</title>
+    <h1 align="center">OREGONE AIRLINES DB ADMIN PAGE</h1>
+    <link rel="stylesheet" href="style.css" type="text/css">
+
+  <body>
+    	${links}
+    </div>
+    <h3 align="center">Create New Route</h3>
+    <div>
+      <form action="/addRoute" , method="post">
+        <table>
+          <tr>
+            <td><strong>Name</strong>
+            <td><input type="text" value="" name="name" />
+          <tr>
+            <td><strong>Departure</strong>
+            <td><select name="departure_location_id">
+                ${location_options}
+              </select>
+          <tr>
+            <td><strong>Arrivial</strong>
+            <td><select name="arrivial_location_id">
+                ${location_options}
+              </select>
+          <tr>
+            <td>
+            <td><input type="submit"></input>
+        </table>
+      </form>
+    </div>
+
+    <table id="results"> 
+      ${results}
+    </table>
+
+    <br>
+    <br>
+    </div>
+  </body>
+`;
+return output;
+}
+function HTML_add_crewlist(links, crewlist_options, crew_options, results) {
+  output = `<head>
+    <meta charset="utf-8" />
+    <title>OA DB Backend</title>
+    <h1 align="center">OREGONE AIRLINES DB ADMIN PAGE</h1>
+    <link rel="stylesheet" href="style.css" type="text/css">
+
+  <body>
+    	${links}
+    </div>
+    <h3 align="center">Add Crew to List</h3>
+    <div>
+      <form action="/addCrewList" , method="post">
+        <table>
+          <tr>
+            <td><strong>List</strong>
+            <td><select name="crewlist_id">
+              <option value="">New</option>
+                ${crewlist_options}
+              </select>
+          <tr>
+            <td><strong>Crew</strong>
+            <td><select name="crew_id">
+                ${crew_options}
+              </select>
+          <tr>
+            <td>
+            <td><input type="submit"></input>
+        </table>
+      </form>
+    </div>
+
+    <table id="results"> 
+      ${results}
+    </table>
+
+    <br>
+    <br>
+    </div>
+  </body>
+`;
+return output;
+}
+function HTML_add_travelerlist(links, travelerlist_options, traveler_options, results) {
+  output = `<head>
+    <meta charset="utf-8" />
+    <title>OA DB Backend</title>
+    <h1 align="center">OREGONE AIRLINES DB ADMIN PAGE</h1>
+    <link rel="stylesheet" href="style.css" type="text/css">
+
+  <body>
+    	${links}
+    </div>
+    <h3 align="center">Add Traveler to List</h3>
+    <div>
+      <form action="/addTravelerList" , method="post">
+        <table>
+          <tr>
+            <td><strong>List</strong>
+            <td><select name="travelerlist_id">
+              <option value="">New</option>
+              ${travelerlist_options}
+              </select>
+          <tr>
+            <td><strong>Traveler</strong>
+            <td><select name="traveler_id">
+              ${traveler_options}
+              </select>
+          <tr>
+            <td>
+            <td><input type="submit"></input>
+        </table>
+      </form>
+    </div>
+
+    <table id="results"> 
+      ${results}
+    </table>
+
+    <br>
+    <br>
+    </div>
+  </body>
+`;
+return output;
+}
+function HTML_add_flight(links, route_options, crewlist_options, plane_options, travelerlist_options, results) {
+  output = `﻿<head>
+    <meta charset="utf-8" />
+    <title>OA DB Backend</title>
+    <h1 align="center">OREGONE AIRLINES DB ADMIN PAGE</h1>
+    <link rel="stylesheet" href="style.css" type="text/css">
+
+  <body>
+    	${links}
+    </div>
+    <h3 align="center">Create New Flight</h3>
+    <div>
+      <form action="/addFlight" , method="post">
+        <table>
+          <tr>
+            <td><strong>Depart Date</strong>
+            <td><input type="date" value="2025-01-01" name="projected_departure_date" />
+          <tr>
+            <td><strong>Depart Time</strong>
+            <td><input type="time" value="T09:30" name="projected_departure_time" />
+          <tr>
+            <td><strong>Arrival Date</strong>
+            <td><input type="date" value="2025-01-01" name="projected_arrival_date" />
+          <tr>
+            <td><strong>Arrival Time</strong>
+            <td><input type="time" value="T12:30" name="projected_arrival_time" />
+          <tr>
+            <td><strong>Route</strong>
+            <td><select name="route_id">
+              ${route_options}
+                </select>
+          <tr>
+            <td><strong>CrewList</strong>
+            <td><select name="crewlist_id">
+                ${crewlist_options}
+              </select>
+          <tr>
+            <td><strong>Plane</strong>
+            <td><select name="plane_id">
+              ${plane_options}
+              </select>
+          <tr>
+            <td><strong>TravelerList First Class</strong>
+            <td><select name="first_class_travelerlist_id">
+              ${travelerlist_options}
+              </select>
+          <tr>
+            <td><strong>TravelerList Second Class</strong>
+            <td><select name="second_class_travelerlist_id">
+              ${travelerlist_options}
+              </select>
+          <tr>
+            <td><strong>TravelerList Third Class</strong>
+            <td><select name="third_class_travelerlist_id">
+              ${travelerlist_options}
+              </select>
+          <tr>
+            <td>
+            <td><input type="submit"></input>
+        </table>
+      </form>
+    </div>
+
+    <table id="results"> 
+      ${results}
+    </table>
+
+    <br>
+    <br>
+    </div>
+  </body>
+`;
+return output;
+}
+function HTML_get_flight_info(links_table, route_options, results) {
+  output = `<head>
+      <meta charset="utf-8" />
+      <title>OA DB Backend</title>
+  	<h1 align="center">OREGONE AIRLINES DB ADMIN PAGE</h1>
+  	<link rel="stylesheet" href="style.css" type="text/css">
+    <script>
+
+    function hide(elements) {
+      for (let i = 0; i < elements.length; i++) {
+        elements[i].style.display = 'none';
+      }
+    }
+
+    function show(elements) {
+      for (let i = 0; i < elements.length; i++) {
+        elements[i].style.display = '';
+      }
+    }
+
+    function toggle_class(checkbox_id, class_name) {
+      var check = document.getElementById(checkbox_id);
+      var cols = document.getElementsByClassName(class_name);
+      if (check.checked) {
+        show(cols);
+      } else {
+        hide(cols);
+      }
+    }
+
+    </script>
+  <body>
+    	${links_table}
+  	</div>
+  	<h3 align="center">Search Traveler History</h3>
+
+
+  	<div>
+  	<form id="searchFlight" action="/getFlightInfo", method="post">
+      <table>
+        <tr>
+          <td colspan="2"><center><strong>Show</strong></center>
+        <tr>
+          <td><input type="checkbox" id="showFlightId" name="showFlightId" onchange="toggle_class('showFlightId','resultsFlightId')" checked/>
+          <td><label for="showFlightId">Flight ID</label>
+        <tr>
+          <td><input type="checkbox" id="showPlaneId" name="showPlaneId" onchange="toggle_class('showPlaneId','resultsPlaneId')" checked/>
+          <td><label for="showPlaneId">Plane ID</label>
+        <tr>
+          <td><input type="checkbox" id="showDepartTimes" name="showDepartTimes" onchange="toggle_class('showDepartTimes','resultsDepartureTime')" checked/>
+          <td><label for="showDepartTimes">Proj/Actual Departure Time</label>
+        <tr>
+          <td><input type="checkbox" id="showArrivalTimes" name="showArrivalTimes" onchange="toggle_class('showArrivalTimes','resultsArrivialTime')" checked/>
+          <td><label for="showArrivalTimes">Proj/Actual Arrival Time</label>
+        <tr>
+          <td><input type="checkbox" id="showRouteId" name="showRouteId" onchange="toggle_class('showRouteId','resultsRouteId')" checked/>
+          <td><label for="showRouteId">Route ID</label>
+  	  <tr>
+          <td><input type="checkbox" id="showDepartLoc" name="showDepartLoc" onchange="toggle_class('showDepartLoc','resultsDepartLoc')" checked/>
+          <td><label for="showDepartLoc">Departing Airport</label>
+  	  <tr>
+          <td><input type="checkbox" id="showDestLoc" name="showDestLoc" onchange="toggle_class('showDestLoc','resultsDestLoc')" checked/>
+          <td><label for="showDestLoc">Destination Airport</label>
+        <tr>
+          <td colspan="2"><center><strong>Filter</strong></center>
+        <tr>
+          <td>Traveler
+          <td><input type="number" id="travelerName"/>
+        <tr>
+          <td><input type="checkbox" id="firstClass" name="showFirstClass" checked/>
+          <td><label for="firstClass">First Class</label>
+        <tr>
+          <td><input type="checkbox" id="secondClass" name="showSecondClass" checked/>
+          <td><label for="secondClass">Second Class</label>
+        <tr>
+          <td><input type="checkbox" id="thirdClass" name="showThirdClass" checked/>
+          <td><label for="thirdClass">Third Class</label>
+        <tr>
+          <td>Route
+          <td><select name="route_id">
+              ${route_options}
+              </select>
+        <tr>
+          <td>
+          <td><input type="submit"/>
+      </table>
+  	</form>
+
+    <table id="results"> 
+      ${results}
+      <tr>
+        <td class="resultsFlightId">FlightID
+        <td class="resultsPlaneId">PlaneID
+        <td class="resultsDepartureTime">DepartureTime
+        <td class="resultsArrivialTime">ArrivialTime
+        <td class="resultsRouteId">RouteID
+    	  <td class="resultsDepartLoc">DepartingAirport
+    	  <td class="resultsDestLoc">DestinationAirport
+        <td class="resultsTravelerId">TravelerID
+        <td class="resultsSeatClass">SeatClass
+      <tr>
+        <td class="resultsFlightId">EXAMPLE
+        <td class="resultsPlaneId">EXAMPLE
+        <td class="resultsDepartureTime">EXAMPLE
+        <td class="resultsArrivialTime">EXAMPLE
+        <td class="resultsRouteId">EXAMPLE
+    	  <td class="resultsDepartLoc">EXAMPLE
+    	  <td class="resultsDestLoc">EXAMPLE
+        <td class="resultsTravelerId">EXAMPLE
+        <td class="resultsSeatClass">EXAMPLE
+      <tr>
+        <td class="resultsFlightId">0
+        <td class="resultsPlaneId">100
+        <td class="resultsDepartureTime">EXAMPLE
+        <td class="resultsArrivialTime">EXAMPLE
+        <td class="resultsRouteId">3
+    	  <td class="resultsDepartLoc">PDX
+    	  <td class="resultsDestLoc">SFO
+        <td class="resultsTravelerId">7
+        <td class="resultsSeatClass">2
+    </table>
+
+  	</div>
+
+    <script>
+      toggle_class('showFlightId','resultsFlightId');
+      toggle_class('showPlaneId','resultsPlaneId');
+      toggle_class('showDepartTimes','resultsDepartureTime');
+      toggle_class('showArrivalTimes','resultsArrivialTime');
+      toggle_class('showRouteId','resultsRouteId');
+    </script>
+  </body>
+`;
+return output;
+}
+function HTML_remove_traveler(links_table, traveler_options, flight_options, results) {
+  output = `<head>
+      <meta charset="utf-8" />
+      <title>OA DB Backend</title>
+  	<h1 align="center">OREGONE AIRLINES DB ADMIN PAGE</h1>
+  	<link rel="stylesheet" href="style.css" type="text/css">
+  <body>
+    	${links_table}
+  	</div>
+  	<h3 align="center">Remove Traveler From Flight</h3>
+  	<div>
+  	<h4>Traveler</h4>
+  	<form id="removeTraveler" action="/removeTraveler", method="post">
+      <table>
+        <tr>
+          <td>Travelers
+          <td><select name="traveler_id">
+            ${traveler_options}
+          </select>
+        <tr>
+          <td>Flight ID
+          <td><select name="flight_id">
+            ${flight_options}
+          </select>
+        <tr>
+          <td>
+          <td><input type="submit"/>
+      </table>
+  	</form>
+  	</div>
+
+
+    <table id="results"> 
+      ${results}
+    </table>
+
+  </body>
+`;
+return output;
+}
+function HTML_update_flight(links_table, flight_options, plane_options, results) {
+  output = `﻿<head>
+      <meta charset="utf-8" />
+      <title>OA DB Backend</title>
+  	<h1 align="center">OREGONE AIRLINES DB ADMIN PAGE</h1>
+  	<link rel="stylesheet" href="style.css" type="text/css">
+  <body>
+    	${links_table}
+  	</div>
+  	<h3 align="center">Update Flight</h3>
+  	<div>
+  	<form action="/updateFlight", method="post">
+      <table>
+        <tr>
+          <td>FlightID
+          <td><select name="flight_id">
+              <option value="1">1</option>
+              ${flight_options}
+              </select>
+        <tr>
+          <td>PlaneID
+          <td><select name="plane_id">
+              ${plane_options}
+          </select>
+        <tr>
+          <td>Depart Time
+          <td><input type="time" name="depart_time"/>
+        <tr>
+          <td>Arrival Time
+          <td><input type="time" name="arrival_time"/>
+        <tr>
+          <td>Depart Date
+          <td><input type="date" name="depart_date" />
+        <tr>
+          <td>Arrival Date
+          <td><input type="date" name="arrival_date" />
+        <tr>
+          <td>
+          <td><input type="submit"/>
+      </table>
+  	</form>
+  	</div>
+
+
+    <table id="results"> 
+        ${results}
+    </table>
+
+  </body>
+`;
+return output;
+}
+function HTML_flight_manifest(links_table, flight_options, results) {
+  output = `<head>
+      <meta charset="utf-8" />
+      <title>OA DB Backend</title>
+  	<h1 align="center">OREGONE AIRLINES DB ADMIN PAGE</h1>
+  	<link rel="stylesheet" href="style.css" type="text/css">
+  <body>
+    	${links_table}
+  	</div>
+  	<h3 align="center">Flight Manifest</h3>
+
+
+  	<div>
+  	<form id="flightManifest" action="/flightManifest", method="post">
+      <table>
+        <tr>
+          <td>FlightID
+          <td><select name="flight_id">
+  		${flight_options}
+  		</select>
+        <tr>
+          <td>Manifest Type
+          <td><select name="manifest_type">
+  			<option value="Traveler">Traveler</option>
+  			<option value="Crew">Crew</option>
+  			</select>
+        <tr>
+          <td>
+          <td><input type="submit"/>
+      </table>
+  	</form>
+
+    <table id="results"> 
+      ${results}
+    </table>
+
+  	</div>
+  </body>`;
+
+  return output;
+}
+
+function HTML_option_routes(route) {
+  output = ""
+  for (let i = 0; i < route.length; i++) {
+    output = output + "<option value=\"" + route[i].route_id + "\">" + route[i].name + "</option>";
+  }
+  return output;
+}
+function HTML_option_locations(location) {
+  output = ""
+  for (let i = 0; i < location.length; i++) {
+    output = output + "<option value=\"" + location[i].location_id + "\">" + location[i].airport_code + "</option>";
+  }
+  return output;
+}
+function HTML_option_crewlists(crewlist) {
+  output = ""
+  for (let i = 0; i < crewlist.length; i++) {
+    output = output + "<option value=\"" + crewlist[i].crewlist_id + "\">" + crewlist[i].crewlist_id + "</option>";
+  }
+  return output;
+}
+function HTML_option_crews(crew) {
+  output = ""
+  for (let i = 0; i < crew.length; i++) {
+    output = output + "<option value=\"" + crew[i].crew_id + "\">" + crew[i].first_name + " " + crew[i].last_name + "</option>";
+  }
+  return output;
+}
+function HTML_option_travelerlists(travelerlist) {
+  output = ""
+  for (let i = 0; i < travelerlist.length; i++) {
+    output = output + "<option value=\"" + travelerlist[i].travelerlist_id + "\">" + travelerlist[i].travelerlist_id + "</option>";
+  }
+  return output;
+}
+function HTML_option_travelers(traveler) {
+  output = ""
+  for (let i = 0; i < traveler.length; i++) {
+    output = output + "<option value=\"" + traveler[i].traveler_id + "\">" + traveler[i].first_name + " " + traveler[i].last_name + "</option>";
+  }
+  return output;
+}
+function HTML_option_planes(plane) {
+  output = ""
+  for (let i = 0; i < plane.length; i++) {
+    output = output + "<option value=\"" + plane[i].plane_id + "\">" + plane[i].plane_id + "</option>";
+  }
+  return output;
+}
+function HTML_option_flights(flight) {
+  output = ""
+  for (let i = 0; i < flight.length; i++) {
+    output = output + "<option value=\"" + flight[i].flight_id + "\">" + flight[i].flight_id + "</option>";
+  }
+  return output;
+}
+
+
 app.get('/', function (req, res) {
-    res.render('home', {
-      helpers: {
-        links_table: links_table }
-    });
+  res.send(HTML_home(links_table(), ""));
 });
-
 
 app.get('/addTraveler', function (req, res) {
-    res.render('addTraveler', {
-      helpers: {
-        links_table: links_table }
-    })
+  res.send(HTML_add_traveler(links_table(), ""));
 });
 app.get('/addCrew', function (req, res) {
-    res.render('addCrew', {
-      helpers: {
-        links_table: links_table }
-    })
+  res.send(HTML_add_crew(links_table(), ""));
 });
 app.get('/addPlane', function (req, res) {
-    res.render('addPlane', {
-      helpers: {
-        links_table: links_table }
-    })
+  res.send(HTML_add_plane(links_table(), ""));
 });
 app.get('/addLocation', function (req, res) {
-    res.render('addLocation', {
-      helpers: {
-        links_table: links_table }
-    })
+  res.send(HTML_add_location(links_table(), ""));
 });
 app.get('/addRoute', function (req, res) {
-  res.render('addRoute', {
-    helpers: {
-      links_table: links_table,
-      locations: option_locations
-    }
-  })
+  sql_con.query("SELECT * from Location;", function (err, result, fields) {
+    res.send(HTML_add_route(links_table(), HTML_option_locations(result), ""));
+  });
+});
+
+app.get('/addFlight', function (req, res) {
+  sql_con.query("SELECT * from Route;", function (err, route, fields) {
+    sql_con.query("SELECT DISTINCT crewlist_id from CrewList;", function(err, crewlist, fields) {
+      sql_con.query("SELECT * from Plane;", function(err, plane, fields) {
+        sql_con.query("SELECT DISTINCT travelerlist_id from TravelerList;", function(err, travelerlist, fields) {
+          res.send(HTML_add_flight(links_table(), HTML_option_routes(route), HTML_option_crewlists(crewlist), HTML_option_planes(plane), HTML_option_travelerlists(travelerlist), ""));
+        });
+      });
+    });
+  });
 });
 app.get('/addCrewList', function (req, res) {
-    res.render('addCrewList', {
-    helpers: {
-      links_table: links_table,
-      crewlists: option_crewlists,
-      crews: option_crews
-    }
-  })
+  sql_con.query("SELECT DISTINCT crewlist_id from CrewList;", function (err, crewlist, fields) {
+    sql_con.query("SELECT * from Crew;", function(err, crew, fields) {
+      res.send(HTML_add_crewlist(links_table(), HTML_option_crewlists(crewlist), HTML_option_crews(crew), ""));
+    });
+  });
 });
 app.get('/addTravelerList', function (req, res) {
-  res.render('addTravelerList', {
-    helpers: {
-      links_table: links_table,
-      travelerlists: option_travelerlists,
-      travelers: option_travelers
-    }
-  })
+  sql_con.query("SELECT DISTINCT travelerlist_id from TravelerList;", function (err, travelerlist, fields) {
+    sql_con.query("SELECT * from Traveler;", function(err, traveler, fields) {
+      res.send(HTML_add_travelerlist(links_table(), HTML_option_travelerlists(travelerlist), HTML_option_travelers(traveler), ""));
+    });
+  });
 });
-app.get('/addFlight', function (req, res) {
 
-  res.render('addFlight', {
-    helpers: {
-      links_table: links_table,
-      routes: option_routes,
-      crewlists: option_crewlists,
-      planes: option_planes,
-      travelerlists: option_travelerlists,
-    }
-  })
-
-});
 app.get('/getFlightInfo', function (req, res) {
-    res.render('getFlightInfo', {
-      helpers: {
-        links_table: links_table,
-        routes: option_routes
-      }
-    });
-});
-app.get('/removeTraveler', function (req, res) {
-    res.render('removeTraveler', {
-      helpers: {
-        links_table: links_table,
-        travelers: option_travelers,
-        flights: option_flights
-      }
-    });
-});
-app.get('/updateFlight', function (req, res) {
-    res.render('updateFlight', {
-      helpers: {
-          links_table: links_table,
-          flights: option_flights,
-          planes: option_planes
-      }
-    });
+  sql_con.query("SELECT * from Route;", function (err, route, fields) {
+    res.send(HTML_get_flight_info(links_table(), HTML_option_routes(route), ""));
+  });
 });
 app.get('/flightManifest', function (req, res) {
-    res.render('flightManifest', {
-        helpers: {
-            links_table: links_table,
-            flights: option_flights
-        }
-    });
+  sql_con.query("SELECT * from Flight;", function(err, flight, fields) {
+    res.send(HTML_flight_manifest(links_table(), HTML_option_flights(flight), ""));
+  });
 });
-
-
+app.get('/updateFlight', function (req, res) {
+  sql_con.query("SELECT * from Plane;", function(err, plane, fields) {
+    sql_con.query("SELECT * from Flight;", function(err, flight, fields) {
+      res.send(HTML_update_flight(links_table(), HTML_option_flights(flight), HTML_option_planes(plane), ""));
+    });
+  });
+});
+app.get('/removeTraveler', function (req, res) {
+  sql_con.query("SELECT * from Traveler;", function(err, traveler, fields) {
+    sql_con.query("SELECT * from Flight;", function(err, flight, fields) {
+      res.send(HTML_remove_traveler(links_table(), HTML_option_travelers(traveler), HTML_option_flights(flight), ""));
+    });
+  });
+});
 
 
 
@@ -337,38 +877,28 @@ app.get('/flightManifest', function (req, res) {
 
 app.post('/addTraveler', function (req, res) {
   console.log(req.body)
-  firstname = req.body.firstname;
-  lastname = req.body.lastname;
+  first_name = req.body.first_name;
+  last_name = req.body.last_name;
 
-  res.render('addTraveler', {
-    helpers: {
-      links_table: links_table,
-      results: function() {
-        query = "INSERT INTO Traveler (firstname, lastname) VALUES ('" + firstname + "', '" + lastname + "');"
-        console.log(query)
-        return query;
-      }
-    }
-  })
+  query = "INSERT INTO Traveler (first_name, last_name) VALUES ('" + first_name + "', '" + last_name + "');"
+  sql_con.query(query, function(err, query_results, fields) {
+    console.log( query + "\n");
+    res.send(HTML_add_traveler(links_table(), ""));
+  });
+
 });
 app.post('/addCrew', function (req, res) {
   console.log(req.body)
-  firstname = req.body.firstname;
-  lastname = req.body.lastname;
+  first_name = req.body.first_name;
+  last_name = req.body.last_name;
   role = req.body.role;
 
+  query = "INSERT INTO Crew (first_name, last_name, role) VALUES ('" + first_name + "', '" + last_name + "', '" + role + "');"
+  sql_con.query(query, function(err, query_results, fields) {
+    console.log( query + "\n");
+    res.send(HTML_add_crew(links_table(), ""));
+  });
 
-
-  res.render('addCrew', {
-    helpers: {
-      links_table: links_table,
-      results: function() {
-        query = "INSERT INTO Crew (fisrtname, lastname, role) VALUES ('" + firstname + "', '" + lastname + "', '" + role + "');"
-        console.log(query)
-        return query;
-      }
-    }
-  })
 });
 app.post('/addPlane', function (req, res) {
   console.log(req.body)
@@ -376,18 +906,12 @@ app.post('/addPlane', function (req, res) {
   num_second_class_seats = req.body.num_second_class_seats;
   num_third_class_seats = req.body.num_third_class_seats;
 
+  query = "INSERT INTO Plane (num_first_class_seats, num_second_class_seats, num_third_class_seats) VALUES (" + num_first_class_seats + ", " + num_second_class_seats + ", " + num_third_class_seats + ");"
+  sql_con.query(query, function(err, query_results, fields) {
+    console.log( query + "\n");
+    res.send(HTML_add_plane(links_table(), ""));
+  });
 
-
-  res.render('addPlane', {
-    helpers: {
-      links_table: links_table,
-      results: function() {
-        query = "INSERT INTO Plane (num_first_class_seats, num_second_class_seats, num_third_class_seats) VALUES (" + num_first_class_seats + ", " + num_second_class_seats + ", " + num_third_class_seats + ");"
-        console.log(query)
-        return query;
-      }
-    }
-  })
 });
 app.post('/addLocation', function (req, res) {
   console.log(req.body)
@@ -396,18 +920,12 @@ app.post('/addLocation', function (req, res) {
   airport_code = req.body.airport_code;
   zip = req.body.zip;
 
+  query = "INSERT INTO Location (city, state, airport_code, zip) VALUES ('" + city + "', '" + state + "', '" + airport_code + "', " + zip + ");"
+  sql_con.query(query, function(err, query_results, fields) {
+    console.log( query + "\n");
+    res.send(HTML_add_location(links_table(), ""));
+  });
 
-
-  res.render('addLocation', {
-    helpers: {
-      links_table: links_table,
-      results: function() {
-        query = "INSERT INTO Location (city, state, airport_code, zip) VALUES ('" + city + "', '" + state + "', '" + airport_code + "', " + zip + ");"
-        console.log(query)
-        return query;
-      }
-    }
-  })
 });
 app.post('/addRoute', function (req, res) {
   console.log(req.body);
@@ -415,19 +933,13 @@ app.post('/addRoute', function (req, res) {
   departure_location_id = req.body.departure_location_id;
   arrivial_location_id = req.body.arrivial_location_id;
 
-
-  res.render('addRoute', {
-    helpers: {
-      links_table: links_table,
-      locations: option_locations,
-      results: function() {
-        query = "INSERT INTO Location (name, departure_location_id, arrivial_location_id) VALUES ('" + name + "', " + departure_location_id + ", " + arrivial_location_id + " );"
-        console.log(query)
-        return query;
-      }
-    }
-  })
-
+  query = "REPLACE INTO Route (name, departure_location_id, arrival_location_id) VALUES ('" + name + "', " + departure_location_id + ", " + arrivial_location_id + " );"
+  sql_con.query(query, function(err, query_results, fields) {
+    console.log( query + "\n");
+    sql_con.query("SELECT * from Location;", function (err, result, fields) {
+      res.send(HTML_add_route(links_table(), HTML_option_locations(result), ""));
+    });
+  });
 
 });
 app.post('/addFlight', function (req, res) {
@@ -443,93 +955,80 @@ app.post('/addFlight', function (req, res) {
   projected_departure_time = req.body.projected_departure_time;
   projected_arrival_time = req.body.projected_arrival_time;
 
-  res.render('addFlight', {
-    helpers: {
-      links_table: links_table,
-      routes: option_routes,
-      crewlists: option_crewlists,
-      planes: option_planes,
-      travelerlists: option_travelerlists,
-      results: function() {
-        query = "INSERT INTO Flight (route_id, crewlist_id, plane_id,  first_class_travelerlist_id, second_class_travelerlist_id, third_class_travelerlist_id,\
-       projected_departure_date, projected_departure_time, projected_arrival_date, projected_arrival_time)\
-       VALUES (" + route_id + ", " + crewlist_id + ", " + plane_id + ", " + first_class_travelerlist_id + ", " + second_class_travelerlist_id + ", " + third_class_travelerlist_id + ",\
-       '" + projected_departure_date + "', '" + projected_departure_time + "', '" + projected_arrival_date + "',  '" + projected_arrival_time + "' )";
-        console.log(query);
-        return query;
-      }
-    }
-  })
+  query = "INSERT INTO Flight (route_id, crewlist_id, plane_id,  first_class_travelerlist_id, second_class_travelerlist_id, third_class_travelerlist_id,\
+  projected_departure_date, projected_departure_time, projected_arrival_date, projected_arrival_time)\
+  VALUES (" + route_id + ", " + crewlist_id + ", " + plane_id + ", " + first_class_travelerlist_id + ", " + second_class_travelerlist_id + ", " + third_class_travelerlist_id + ",\
+  '" + projected_departure_date + "', '" + projected_departure_time + "', '" + projected_arrival_date + "',  '" + projected_arrival_time + "' )";
+  // console.log("INCOMPLETE::::::: " + query);
+  query = "";
+  sql_con.query(query, function(err, query_results, fields) {
+    console.log( query + "\n");
+    sql_con.query("SELECT * from Route;", function (err, route, fields) {
+      sql_con.query("SELECT DISTINCT crewlist_id from CrewList;", function(err, crewlist, fields) {
+        sql_con.query("SELECT * from Plane;", function(err, plane, fields) {
+          sql_con.query("SELECT DISTINCT travelerlist_id from TravelerList;", function(err, travelerlist, fields) {
+            res.send(HTML_add_flight(links_table(), HTML_option_routes(route), HTML_option_crewlists(crewlist), HTML_option_planes(plane), HTML_option_travelerlists(travelerlist), ""));
+          });
+        });
+      });
+    });
+  });
 });
 app.post('/addCrewList', function (req, res) {
   console.log(req.body);
   crewlist_id = req.body.crewlist_id;
   crew_id = req.body.crew_id;
 
-  res.render('addCrewList', {
-    helpers: {
-      links_table: links_table,
-      crewlists: option_crewlists,
-      crews: option_crews,
-      results: function() {
-        if ("" == crewlist_id) {
-          query = "INSERT INTO CrewList (crew_id) VALUES ('" + crew_id + "');";
-        } else {
-          query = "INSERT INTO CrewList (crewlist_id, crew_id) VALUES ('" + crewlist_id + "', '" + crew_id + "');";
-        }
-        console.log(query);
-        return query;
-      }
-    }
-  })
+  if ("" == crewlist_id) {
+    query = "INSERT INTO CrewList (crew_id) VALUES ('" + crew_id + "');";
+  } else {
+    query = "INSERT INTO CrewList (crewlist_id, crew_id) VALUES ('" + crewlist_id + "', '" + crew_id + "');";
+  }
+  sql_con.query(query, function(err, query_results, fields) {
+    console.log( query + "\n");
+    sql_con.query("SELECT DISTINCT crewlist_id from CrewList;", function (err, crewlist, fields) {
+      sql_con.query("SELECT * from Crew;", function(err, crew, fields) {
+        res.send(HTML_add_crewlist(links_table(), HTML_option_crewlists(crewlist), HTML_option_crews(crew), ""));
+      });
+    });
+  });
+
 });
 app.post('/addTravelerList', function (req, res) {
   console.log(req.body);
   travelerlist_id = req.body.travelerlist_id;
   traveler_id = req.body.traveler_id;
 
+  if ("" == travelerlist_id) {
+    query = "INSERT INTO TravelerList (traveler_id) VALUES (" + traveler_id + ")";
+  } else {
+    query = "INSERT INTO TravelerList (travelerlist_id, traveler_id) VALUES (" + travelerlist_id + "," + traveler_id + ")";
+  }
+  sql_con.query(query, function(err, query_results, fields) {
+    console.log( query + "\n");
+    sql_con.query("SELECT DISTINCT travelerlist_id from TravelerList;", function (err, travelerlist, fields) {
+      sql_con.query("SELECT * from Traveler;", function(err, traveler, fields) {
+        res.send(HTML_add_travelerlist(links_table(), HTML_option_travelerlists(travelerlist), HTML_option_travelers(traveler), ""));
+      });
+    });
+  });
 
-  res.render('addTravelerList', {
-    helpers: {
-      links_table: links_table,
-      travelerlists: option_travelerlists,
-      travelers: option_travelers,
-      results: function() {
-        if ("" == travelerlist_id) {
-          query = "INSERT INTO TraverlerList (traveler_id) VALUES (" + traveler_id + ")";
-        } else {
-          query = "INSERT INTO TraverlerList (travelerlist_id, traveler_id) VALUES (" + travelerlist_id + "," + traveler_id + ")";
-        }
-        console.log(query);
-        return query;
-      }
-    }
-  })
 });
 app.post('/getFlightInfo', function (req, res) {
   console.log(req.body);
-  res.render('getFlightInfo', {
-    helpers: {
-      links_table: links_table,
-      routes: option_routes
-    }
-  })
+  sql_con.query("SELECT * from Route;", function (err, route, fields) {
+    res.send(HTML_get_flight_info(links_table(), HTML_option_routes(route), ""));
+  });
+
 });
 app.post('/flightManifest', function (req, res) {
     console.log(req.body);
     flight_id = req.body.flight_id;
     manifest_type = req.body.manifest_type;
-    res.render('flightManifest', {
-        helpers: {
-            flights: option_flights,
-            links_table: links_table,
-            results: function () {
-                query = "SELECT first_name, last_name FROM " + manifest_type + " LEFT JOIN " + manifest_type + "List ON " + manifest_type + "_id WHERE " + manifest_type + "list_id IN (SELECT first_class_travelerlist_id, first_class_travelerlist_id, first_class_travelerlist_id FROM Flight WHERE flight_id = " + flight_id + ";";
-                console.log(query);
-                return query;
-            }
-        }
-    })
+
+    sql_con.query("SELECT * from Flight;", function(err, flight, fields) {
+      res.send(HTML_flight_manifest(links_table(), HTML_option_flights(flight), ""));
+    });
 });
 app.post('/updateFlight', function (req, res) {
   console.log(req.body);
@@ -539,59 +1038,25 @@ app.post('/updateFlight', function (req, res) {
   projected_departure_date = req.body.depart_date;
   projected_arrival_time = req.body.arrival_time;
   projected_arrival_date = req.body.arrival_date;
-  res.render('updateFlight', {
-      helpers: {
-      flights: option_flights,
-      planes: option_planes,
-      links_table: links_table,
-      results: function () {
-          updateCols = buildUpdate(plane_id, projected_departure_time, projected_departure_date, projected_arrival_time, projected_arrival_date);
-          query = "UPDATE Flight SET " + updateCols + " WHERE flight_id = " + flight_id + ";";
-          console.log(query);
-          return query;
-      }
-    }
-  })
+
+  sql_con.query("SELECT * from Plane;", function(err, plane, fields) {
+    sql_con.query("SELECT * from Flight;", function(err, flight, fields) {
+      res.send(HTML_update_flight(links_table(), HTML_option_flights(flight), HTML_option_planes(plane), ""));
+    });
+  });
 });
 app.post('/removeTraveler', function (req, res) {
  console.log(req.body);
   traveler_id = req.body.traveler_id;
   flight_id = req.body.flight_id;
 
-  res.render('removeTraveler', {
-    helpers: {
-      links_table: links_table,
-      travelers: option_travelers,
-      flights: option_flights,
-      results: function() {
-          query = "DELETE FROM TravelerList WHERE traveler_id='" + traveler_id + " AND travelerlist_id IN (SELECT traveler_id FROM TravelerList LEFT JOIN Flight ON first_class_travelerlist_id, second_class_travelerlist_id, third_class_travelerlist_id WHERE flight_id = " + flight_id + "'');";
-        console.log(query)
-        return query;
-      }
-    }
-  })
+  sql_con.query("SELECT * from Traveler;", function(err, traveler, fields) {
+    sql_con.query("SELECT * from Flight;", function(err, flight, fields) {
+      res.send(HTML_remove_traveler(links_table(), HTML_option_travelers(traveler), HTML_option_flights(flight), ""));
+    });
+  });
 });
 
-
-
-
-
-
-
-
-//404 page
-app.use(function (req, res) {
-    res.status(404);
-    res.render('404');
-});
-
-//500 page
-app.use(function (err, req, res, next) {
-    console.error(err.stack);
-    res.type('plain/text');
-    res.status(500);
-    res.render('500');
-});
 
 
 
