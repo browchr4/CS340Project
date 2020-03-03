@@ -932,12 +932,7 @@ app.post('/addFlight', function (req, res) {
   projected_departure_time = req.body.projected_departure_time;
   projected_arrival_time = req.body.projected_arrival_time;
 
-  query = "INSERT INTO Flight (route_id, crewlist_id, plane_id,  first_class_travelerlist_id, second_class_travelerlist_id, third_class_travelerlist_id,\
-  projected_departure_date, projected_departure_time, projected_arrival_date, projected_arrival_time)\
-  VALUES (" + route_id + ", " + crewlist_id + ", " + plane_id + ", " + first_class_travelerlist_id + ", " + second_class_travelerlist_id + ", " + third_class_travelerlist_id + ",\
-  '" + projected_departure_date + "', '" + projected_departure_time + "', '" + projected_arrival_date + "',  '" + projected_arrival_time + "' )";
-  // console.log("INCOMPLETE::::::: " + query);
-  query = "";
+  query = "INSERT INTO Flight (route_id, crewlist_id, plane_id, first_class_travelerlist_id, second_class_travelerlist_id, third_class_travelerlist_id, projected_departure_date, projected_departure_time, projected_arrival_date, projected_arrival_time) VALUES (" + route_id + ", " + crewlist_id + ", " + plane_id + ", " + first_class_travelerlist_id + ", " + second_class_travelerlist_id + ", " + third_class_travelerlist_id + ", '" + projected_departure_date + "', '" + projected_departure_time + "', '" + projected_arrival_date + "', '" + projected_arrival_time + "');";
   mysql.pool.query(query, function(err, query_results, fields) {
     console.log( query + "\n");
     mysql.pool.query("SELECT * from Route;", function (err, route, fields) {
