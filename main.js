@@ -448,7 +448,7 @@ function HTML_add_flight(links, route_options, crewlist_options, plane_options, 
 `;
 return output;
 }
-function HTML_get_flight_info(links_table, route_options, results) {
+function HTML_get_flight_info(links_table, traveler_options, results) {
   output = `<head>
       <meta charset="utf-8" />
       <title>OA DB Backend</title>
@@ -515,7 +515,9 @@ function HTML_get_flight_info(links_table, route_options, results) {
           <td colspan="2"><center><strong>Filter</strong></center>
         <tr>
           <td>Traveler
-          <td><input type="number" id="travelerName"/>
+          <td><select name="traveler_id">
+               ${traveler_options}
+              </select>
         <tr>
           <td><input type="checkbox" id="firstClass" name="showFirstClass" checked/>
           <td><label for="firstClass">First Class</label>
@@ -525,11 +527,6 @@ function HTML_get_flight_info(links_table, route_options, results) {
         <tr>
           <td><input type="checkbox" id="thirdClass" name="showThirdClass" checked/>
           <td><label for="thirdClass">Third Class</label>
-        <tr>
-          <td>Route
-          <td><select name="route_id">
-              ${route_options}
-              </select>
         <tr>
           <td>
           <td><input type="submit"/>
@@ -824,8 +821,8 @@ app.get('/addTravelerList', function (req, res) {
 });
 
 app.get('/getFlightInfo', function (req, res) {
-  mysql.pool.query("SELECT * from Route;", function (err, route, fields) {
-    res.send(HTML_get_flight_info(links_table(), HTML_option_routes(route), ""));
+  mysql.pool.query("SELECT * from Traveler;", function (err, traveler, fields) {
+    res.send(HTML_get_flight_info(links_table(), HTML_option_travelers(traveler), ""));
   });
 });
 app.get('/flightManifest', function (req, res) {
@@ -987,9 +984,35 @@ app.post('/addTravelerList', function (req, res) {
 
 });
 app.post('/getFlightInfo', function (req, res) {
-  console.log(req.body);
-  mysql.pool.query("SELECT * from Route;", function (err, route, fields) {
-    res.send(HTML_get_flight_info(links_table(), HTML_option_routes(route), ""));
+    console.log(req.body);
+    traveler_id = req.body.traveler_id;
+    first_class = "";
+    second_class = "";
+    third_class = "";
+    class_filter = "on";
+    last_class = "o";
+
+    if (class_filter.localeCompare(req.body.showFirstClass) == 0) {
+        first_class = "INNER JOIN TravelerList AS o ON o.travelerlist_id = f.first_class_travelerlist_id ";
+    }
+    else {
+        last_class = "";
+    }
+
+    if (class_filter.localeCompare(req.body.showSecondClass) == 0) {
+        second_class = "INNER JOIN TravelerList AS s ON s.travelerlist_id = f.second_class_travelerlist_id ";
+        last_class = "s";
+    }
+
+    if (class_filter.localeCompare(req.body.showThirdClass) == 0) {
+        third_class = "INNER JOIN TravelerList AS t ON t.travelerlist_id = f.third_class_travelerlist_id ";
+        last_class = "t";
+    }
+
+    query = "SELECT DISTINCT f.flight_id, f.plane_id, f.projected_departure_time, f.projected_arrival_time, f.route_id, r.name FROM Flight AS f INNER JOIN Route AS r ON r.route_id = f.route_id " + first_class + second_class + third_class + "WHERE " + last_class + ".traveler_id = " + traveler_id + ";";
+    console.log(query);
+    mysql.pool.query("SELECT * from Traveler;", function (err, traveler, fields) {
+    res.send(HTML_get_flight_info(links_table(), HTML_option_travelers(traveler), ""));
   });
 
 });
