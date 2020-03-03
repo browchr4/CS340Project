@@ -393,13 +393,13 @@ function HTML_add_flight(links, route_options, crewlist_options, plane_options, 
             <td><input type="date" value="2025-01-01" name="projected_departure_date" />
           <tr>
             <td><strong>Depart Time</strong>
-            <td><input type="time" value="T09:30" name="projected_departure_time" />
+            <td><input type="time" value="T09:30:00" step="1" name="projected_departure_time" />
           <tr>
             <td><strong>Arrival Date</strong>
             <td><input type="date" value="2025-01-01" name="projected_arrival_date" />
           <tr>
             <td><strong>Arrival Time</strong>
-            <td><input type="time" value="T12:30" name="projected_arrival_time" />
+            <td><input type="time" value="T12:30:00" step="1" name="projected_arrival_time" />
           <tr>
             <td><strong>Route</strong>
             <td><select name="route_id">
