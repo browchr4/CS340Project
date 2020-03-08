@@ -534,7 +534,6 @@ function HTML_get_flight_info(links_table, traveler_options, results) {
   	</form>
 
     <table id="results"> 
-      ${results}
       <tr>
         <td class="resultsFlightId">FlightID
         <td class="resultsPlaneId">PlaneID
@@ -546,16 +545,6 @@ function HTML_get_flight_info(links_table, traveler_options, results) {
         <td class="resultsTravelerId">TravelerID
         <td class="resultsSeatClass">SeatClass
       <tr>
-        <td class="resultsFlightId">EXAMPLE
-        <td class="resultsPlaneId">EXAMPLE
-        <td class="resultsDepartureTime">EXAMPLE
-        <td class="resultsArrivialTime">EXAMPLE
-        <td class="resultsRouteId">EXAMPLE
-    	  <td class="resultsDepartLoc">EXAMPLE
-    	  <td class="resultsDestLoc">EXAMPLE
-        <td class="resultsTravelerId">EXAMPLE
-        <td class="resultsSeatClass">EXAMPLE
-      <tr>
         <td class="resultsFlightId">0
         <td class="resultsPlaneId">100
         <td class="resultsDepartureTime">EXAMPLE
@@ -565,6 +554,7 @@ function HTML_get_flight_info(links_table, traveler_options, results) {
     	  <td class="resultsDestLoc">SFO
         <td class="resultsTravelerId">7
         <td class="resultsSeatClass">2
+        ${results}
     </table>
 
   	</div>
@@ -1011,9 +1001,10 @@ app.post('/getFlightInfo', function (req, res) {
 
     query = "SELECT DISTINCT f.flight_id, f.plane_id, f.projected_departure_time, f.projected_arrival_time, f.route_id, r.name FROM Flight AS f INNER JOIN Route AS r ON r.route_id = f.route_id " + first_class + second_class + third_class + "WHERE " + last_class + ".traveler_id = " + traveler_id + ";";
     console.log(query);
-    mysql.pool.query("SELECT * from Traveler;", function (err, traveler, fields) {
-    res.send(HTML_get_flight_info(links_table(), HTML_option_travelers(traveler), ""));
-  });
+    mysql.pool.query(query, function (err, results, fields) {
+      console.log(results);
+      res.send(HTML_get_flight_info(links_table(), HTML_option_travelers(results), ""));
+    });
 
 });
 app.post('/flightManifest', function (req, res) {
@@ -1041,15 +1032,30 @@ app.post('/updateFlight', function (req, res) {
   });
 });
 app.post('/removeTraveler', function (req, res) {
- console.log(req.body);
+ // console.log(req.body);
   traveler_id = req.body.traveler_id;
   flight_id = req.body.flight_id;
 
-  mysql.pool.query("SELECT * from Traveler;", function(err, traveler, fields) {
-    mysql.pool.query("SELECT * from Flight;", function(err, flight, fields) {
-      res.send(HTML_remove_traveler(links_table(), HTML_option_travelers(traveler), HTML_option_flights(flight), ""));
+  query = "SELECT first_class_travelerlist_id, second_class_travelerlist_id, third_class_travelerlist_id from Flight WHERE flight_id = " + flight_id + ";";
+  mysql.pool.query(query, function (err, travelerlist_ids, fields) {
+    id_1 = travelerlist_ids[0].first_class_travelerlist_id;
+    id_2 = travelerlist_ids[0].second_class_travelerlist_id;
+    id_3 = travelerlist_ids[0].third_class_travelerlist_id;
+
+    query = "DELETE FROM TravelerList WHERE ( traveler_id=" + traveler_id + " AND travelerlist_id="  + id_1 + " )" +
+                                       " OR ( traveler_id=" + traveler_id + " AND travelerlist_id="  + id_2 + " )" +
+                                       " OR ( traveler_id=" + traveler_id + " AND travelerlist_id="  + id_3 + " );";
+    mysql.pool.query(query, function(err, return_vals, fields) {
+
+      mysql.pool.query("SELECT * from Traveler;", function(err, traveler, fields) {
+        mysql.pool.query("SELECT * from Flight;", function(err, flight, fields) {
+          res.send(HTML_remove_traveler(links_table(), HTML_option_travelers(traveler), HTML_option_flights(flight), ""));
+        });
+      });
+
     });
   });
+
 });
 
 
@@ -1073,3 +1079,4 @@ app.use(function (err, req, res, next) {
 app.listen(app.get('port'), function () {
     console.log('Express started on http://' + os.hostname() + ':' + app.get('port') + '; press Ctrl-C to terminate.');
 });
+ 
