@@ -636,16 +636,16 @@ function HTML_update_flight(links_table, flight_options, plane_options, results)
           </select>
         <tr>
           <td><strong>Depart Date</strong>
-          <td><input type="date" value="2025-01-01" name="projected_departure_date" />
+          <td><input type="date" name="projected_departure_date" />
         <tr>
           <td><strong>Depart Time</strong>
-          <td><input type="time" value="T09:30:00" step="1" name="projected_departure_time" />
+          <td><input type="time" step="1" name="projected_departure_time" />
         <tr>
           <td><strong>Arrival Date</strong>
-          <td><input type="date" value="2025-01-01" name="projected_arrival_date" />
+          <td><input type="date" name="projected_arrival_date" />
         <tr>
           <td><strong>Arrival Time</strong>
-          <td><input type="time" value="T12:30:00" step="1" name="projected_arrival_time" />
+          <td><input type="time" step="1" name="projected_arrival_time" />
         <tr>
           <td>
           <td><input type="submit"/>
@@ -1026,7 +1026,7 @@ app.post('/updateFlight', function (req, res) {
   projected_arrival_date = req.body.projected_arrival_date;
   buildUpdate = "";
   if (plane_id.length != 0) {
-      buildUpdate = buildUpdate + "plane_id = " + plane_id + ","; 
+      buildUpdate = buildUpdate + "plane_id = " + plane_id + ", "; 
     }
   if (projected_departure_time != 0) {
       buildUpdate = buildUpdate + "projected_departure_time = '" + projected_departure_time + "', ";
