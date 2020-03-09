@@ -635,17 +635,17 @@ function HTML_update_flight(links_table, flight_options, plane_options, results)
               ${plane_options}
           </select>
         <tr>
-          <td>Depart Time
-          <td><input type="time" name="depart_time"/>
+          <td><strong>Depart Date</strong>
+          <td><input type="date" value="2025-01-01" name="projected_departure_date" />
         <tr>
-          <td>Arrival Time
-          <td><input type="time" name="arrival_time"/>
+          <td><strong>Depart Time</strong>
+          <td><input type="time" value="T09:30:00" step="1" name="projected_departure_time" />
         <tr>
-          <td>Depart Date
-          <td><input type="date" name="depart_date" />
+          <td><strong>Arrival Date</strong>
+          <td><input type="date" value="2025-01-01" name="projected_arrival_date" />
         <tr>
-          <td>Arrival Date
-          <td><input type="date" name="arrival_date" />
+          <td><strong>Arrival Time</strong>
+          <td><input type="time" value="T12:30:00" step="1" name="projected_arrival_time" />
         <tr>
           <td>
           <td><input type="submit"/>
@@ -1020,16 +1020,37 @@ app.post('/updateFlight', function (req, res) {
   console.log(req.body);
   flight_id = req.body.flight_id;
   plane_id = req.body.plane_id;
-  projected_departure_time = req.body.depart_time;
-  projected_departure_date = req.body.depart_date;
-  projected_arrival_time = req.body.arrival_time;
-  projected_arrival_date = req.body.arrival_date;
+  projected_departure_time = req.body.projected_departure_time;
+  projected_departure_date = req.body.projected_departure_date;
+  projected_arrival_time = req.body.projected_arrival_time;
+  projected_arrival_date = req.body.projected_arrival_date;
+  buildUpdate = "";
+  if (plane_id.length != 0) {
+      buildUpdate = buildUpdate + "plane_id = " + plane_id + ","; 
+    }
+  if (projected_departure_time != 0) {
+      buildUpdate = buildUpdate + "projected_departure_time = '" + projected_departure_time + "', ";
+    }
+  if (projected_departure_date != 0) {
+        buildUpdate = buildUpdate + "projected_departure_date = '" + projected_departure_date + "', ";
+    }
+  if (projected_arrival_time != 0) {
+      buildUpdate = buildUpdate + "projected_arrival_time = '" + projected_arrival_time + "', ";
+    }
+  if (projected_arrival_date != 0) {
+      buildUpdate = buildUpdate + "projected_arrival_date = '" + projected_arrival_date + "', ";
+    }
+  buildUpdate = buildUpdate.slice(0, -2);                                                   //https://stackoverflow.com/questions/952924/javascript-chop-slice-trim-off-last-character-in-string
+  query = "UPDATE Flight SET " + buildUpdate + " WHERE flight_id = " + flight_id + ";";
+  console.log(query);
 
-  mysql.pool.query("SELECT * from Plane;", function(err, plane, fields) {
-    mysql.pool.query("SELECT * from Flight;", function(err, flight, fields) {
-      res.send(HTML_update_flight(links_table(), HTML_option_flights(flight), HTML_option_planes(plane), ""));
+    mysql.pool.query(query, function (err, return_vals, fields) {
+        mysql.pool.query("SELECT * from Plane;", function (err, plane, fields) {
+            mysql.pool.query("SELECT * from Flight;", function (err, flight, fields) {
+                res.send(HTML_update_flight(links_table(), HTML_option_flights(flight), HTML_option_planes(plane), ""));
+            });
+        });
     });
-  });
 });
 app.post('/removeTraveler', function (req, res) {
  // console.log(req.body);
